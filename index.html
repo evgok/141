@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%235046E6'/%3E%3Crect x='24' y='28' width='52' height='44' rx='6' fill='none' stroke='white' stroke-width='6'/%3E%3Cline x1='24' y1='42' x2='76' y2='42' stroke='white' stroke-width='6'/%3E%3C/svg%3E">
+<script src="support.js"></script>
+</head>
+<body>
+<x-dc>
+<template id="__bundler_thumbnail" data-bg-color="#F5F5F5">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#F5F5F5"></rect>
+    <rect x="24" y="26" width="52" height="46" rx="8" fill="none" stroke="#5046E6" stroke-width="4"></rect>
+    <line x1="24" y1="40" x2="76" y2="40" stroke="#5046E6" stroke-width="4"></line>
+    <line x1="36" y1="20" x2="36" y2="32" stroke="#5046E6" stroke-width="4" stroke-linecap="round"></line>
+    <line x1="64" y1="20" x2="64" y2="32" stroke="#5046E6" stroke-width="4" stroke-linecap="round"></line>
+    <circle cx="36" cy="52" r="3.5" fill="#5046E6"></circle>
+    <circle cx="50" cy="52" r="3.5" fill="#5046E6"></circle>
+    <circle cx="64" cy="52" r="3.5" fill="#5046E6"></circle>
+    <circle cx="36" cy="63" r="3.5" fill="#5046E6"></circle>
+    <circle cx="50" cy="63" r="3.5" fill="#5046E6"></circle>
+  </svg>
+</template>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pg:#F5F5F5; --srf:#FFFFFF; --knob:#FFFFFF; --brd:#ECECF5; --brd2:#E4E4EF; --div:#F0F0F5; --soft:#FAFAFC;
+    --tx:#101828; --tx2:#475467; --tx3:#667085; --tx4:#98A2B3;
+    --acc:#5046E6; --accH:#3F37C9; --accSoft:#F0EEFF; --accSoftH:#E4E0FF; --accBrd:#DAD5FB;
+    --pill:#ECECEC; --pillH:#E2E0F7; --off:#D8D8DE; --chip:#F2F4F7;
+    --grn:#22C55E; --grnD:#16A34A; --grnD2:#15803D; --grnSoft:#E9F9EF; --grnSoftH:#DCFCE7; --grnBrd:#C9EED8;
+    --redSoft:#FEE2E2; --red:#DC2626;
+    --sky:#38BDF8; --skyD:#0284C7; --skySoft:#E0F2FE; --skyBrd:#BAE6FD;
+    --brk:#F1E8FB; --brkBrd:#E1CDF2; --brkTx:#7C3AED; --brkNow:#9333EA;
+    --shCard:0 1px 3px rgba(16,24,40,.08),0 1px 2px rgba(16,24,40,.04); --sh1:0 1px 2px rgba(16,24,40,.05);
+  }
+  html, body { margin:0; padding:0; background:var(--pg); }
+  html { color-scheme: light; }
+  * { box-sizing: border-box; }
+  a { color:var(--acc); text-decoration:none; }
+  a:hover { color:var(--accH); }
+  select:focus-visible, button:focus-visible, a:focus-visible { outline:2px solid var(--acc); outline-offset:2px; }
+  @keyframes pulseColon { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+  @keyframes pulseDot { 0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)} 70%{box-shadow:0 0 0 8px rgba(34,197,94,0)} 100%{box-shadow:0 0 0 0 rgba(34,197,94,0)} }
+  @keyframes eggSpin { 0%{transform:rotateY(0deg)} 100%{transform:rotateY(360deg)} }
+  @keyframes eggFade { 0%{opacity:0} 5%{opacity:1} 95%{opacity:1} 100%{opacity:0} }
+  @keyframes modalIn { 0%{opacity:0;transform:scale(.92)} 100%{opacity:1;transform:scale(1)} }
+</style>
+</helmet>
+<sc-if value="{{ showRefreshBanner }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;top:0;left:0;right:0;z-index:70;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;padding:14px 20px;background:var(--acc);color:#fff;font-family:Manrope,system-ui,sans-serif;box-shadow:var(--shCard)">
+    <span style="font-size:14px;font-weight:600">Щоб бачити актуальну інформацію, оновіть сторінку</span>
+    <div style="display:flex;align-items:center;gap:8px;flex:none">
+      <button type="button" onClick="{{ refreshPage }}" style="cursor:pointer;font-family:inherit;border:none;background:#fff;color:var(--acc);font-size:13px;font-weight:800;padding:0 18px;min-height:38px;border-radius:999px" style-hover="background:var(--accSoft);color:var(--accH)">Оновити</button>
+      <button type="button" onClick="{{ dismissBanner }}" aria-label="Закрити" style="cursor:pointer;border:none;background:rgba(255,255,255,.22);color:#fff;width:30px;height:30px;border-radius:50%;font-size:15px;font-weight:700" style-hover="background:rgba(255,255,255,.38)">×</button>
+    </div>
+  </div>
+</sc-if>
+<div style="min-height: 100vh; background: var(--pg); font-family: Manrope,system-ui,sans-serif; color: var(--tx); padding: {{ pagePad }}; max-width: 100%">
+<div style="max-width:1598px;margin:0 auto;display:flex;flex-direction:column;gap:{{ sectionGap }}">
+
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <div style="display:flex;flex-direction:column;gap:6px;flex:1;min-width:0">
+      <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;justify-content:flex-start;gap:8px;width:100%;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:6px;background:var(--srf);border:1px solid var(--brd);border-radius:999px;padding:0 14px;height:44px;box-shadow:var(--sh1);color:var(--acc);white-space:nowrap;flex-shrink:0">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="flex:none"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+            <span style="font-size:12px;font-weight:600;color:var(--tx3);font-variant-numeric:tabular-nums">Сьогодні {{ compactDate }}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-left:auto;flex:none">
+            <button type="button" onClick="{{ refreshPage }}" aria-label="Оновити сторінку" title="Оновити сторінку" style="cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;background:var(--srf);border:1px solid var(--brd);box-shadow:var(--sh1);color:var(--tx3);flex:none" style-hover="background:var(--pillH);color:var(--acc)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M3 12a9 9 0 1 1 3 6.7"></path><path d="M3 21v-6h6"></path></svg>
+            </button>
+            <button type="button" onClick="{{ toggleSettings }}" aria-label="Налаштування" style="cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;background:var(--srf);border:1px solid var(--brd);box-shadow:var(--sh1);color:var(--tx3);flex:none" style-hover="background:var(--pillH);color:var(--acc)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </button>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <h1 style="margin:0;font-size:{{ h1Size }};font-weight:800;letter-spacing:-.02em;line-height:1.1">Розклад уроків 6-Г</h1>
+        <sc-if value="{{ liveNow }}" hint-placeholder-val="{{ true }}">
+          <span style="display: flex; align-items: center; gap: 8px; background: var(--grnSoft); border: 1px solid var(--grnBrd); border-radius: 999px; padding: 4px 5px 4px 14px; min-height: 36px; width: auto; white-space: nowrap">
+            <span style="width:9px;height:9px;border-radius:50%;background:var(--grn);animation:pulseDot 1.8s infinite;flex:none"></span>
+            <span style="font-size:12px;font-weight:800;color:var(--grnD);text-transform:uppercase;letter-spacing:.06em">{{ liveLabel }}</span>
+            <sc-if value="{{ showJump }}" hint-placeholder-val="{{ false }}">
+              <button type="button" onClick="{{ jumpToLive }}" style="cursor:pointer;font-family:inherit;border:none;background:var(--grn);color:#fff;font-size:12px;font-weight:800;padding:0 12px;min-height:30px;border-radius:999px" style-hover="background:var(--grnD);color:#fff">Показати</button>
+            </sc-if>
+          </span>
+        </sc-if>
+        <sc-if value="{{ liveUpcoming }}" hint-placeholder-val="{{ false }}">
+          <span style="display: flex; align-items: center; gap: 8px; background: var(--accSoft); border: 1px solid var(--accBrd); border-radius: 999px; padding: 4px 5px 4px 14px; min-height: 36px; width: auto; white-space: nowrap">
+            <span style="width:9px;height:9px;border-radius:50%;background:var(--acc);flex:none"></span>
+            <span style="font-size:12px;font-weight:800;color:var(--acc);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">{{ liveLabel }}</span>
+            <sc-if value="{{ showJump }}" hint-placeholder-val="{{ false }}">
+              <button type="button" onClick="{{ jumpToLive }}" style="cursor:pointer;font-family:inherit;border:none;background:var(--acc);color:#fff;font-size:12px;font-weight:800;padding:0 12px;min-height:30px;border-radius:999px" style-hover="background:var(--accH);color:#fff">Показати</button>
+            </sc-if>
+          </span>
+        </sc-if>
+        <sc-if value="{{ liveDone }}" hint-placeholder-val="{{ false }}">
+          <span style="display:flex;align-items:center;gap:8px;background:var(--skySoft);border:1px solid var(--skyBrd);border-radius:999px;padding:4px 14px;min-height:36px">
+            <span style="width:9px;height:9px;border-radius:50%;background:var(--sky);flex:none"></span>
+            <span style="font-size:12px;font-weight:800;color:var(--skyD);text-transform:uppercase;letter-spacing:.06em">На сьогодні уроки закінчились</span>
+          </span>
+        </sc-if>
+      </div>
+    </div>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;align-items:center;gap:10px;flex:none">
+    <div style="display:flex;align-items:center;gap:9px;background:var(--srf);border:1px solid var(--brd);border-radius:999px;padding:0 16px;height:44px;box-shadow:var(--sh1);flex:none">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="flex:none;color:var(--acc)"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+      <span style="font-size:14px;font-weight:600;color:var(--tx3)">{{ todayLabel }}</span>
+    </div>
+    <button type="button" onClick="{{ refreshPage }}" aria-label="Оновити сторінку" title="Оновити сторінку" style="cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;background:var(--srf);border:1px solid var(--brd);box-shadow:var(--sh1);color:var(--tx3)" style-hover="background:var(--pillH);color:var(--acc)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 1 3 6.7"></path><path d="M3 21v-6h6"></path></svg>
+    </button>
+    <button type="button" onClick="{{ toggleSettings }}" aria-label="Налаштування" title="Налаштування" style="cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;background:var(--srf);border:1px solid var(--brd);box-shadow:var(--sh1);color:var(--tx3)" style-hover="background:var(--accSoft);color:var(--acc)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+    </button>
+    </div>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{ isTablet }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <select value="{{ dayName }}" onChange="{{ onDaySelect }}" style="appearance:none;flex:0 0 auto;width:auto;min-height:48px;border-radius:999px;border:1px solid var(--brd2);background:var(--srf);font-family:inherit;font-size:15px;font-weight:700;color:var(--tx);padding:0 34px 0 18px">
+        <sc-for list="{{ dayNames }}" as="d" hint-placeholder-count="5"><option value="{{ d }}">{{ d }}</option></sc-for>
+      </select>
+      <div style="display:flex;align-items:center;gap:8px;border:1px solid var(--brd2);border-radius:14px;padding:6px 10px;min-height:48px;flex:none">
+        <div style="display:flex;border:1px solid var(--brd2);border-radius:999px;overflow:hidden">
+          <sc-for list="{{ groupTabs }}" as="g" hint-placeholder-count="3">
+            <sc-if value="{{ g.active }}" hint-placeholder-val="{{ false }}">
+              <button type="button" onClick="{{ g.onClick }}" style="border:none;cursor:pointer;font-family:inherit;background:var(--acc);color:#fff;font-size:13px;font-weight:700;padding:0 13px;min-height:36px">{{ g.label }}</button>
+            </sc-if>
+            <sc-if value="{{ g.inactive }}" hint-placeholder-val="{{ true }}">
+              <button type="button" onClick="{{ g.onClick }}" style="border:none;border-left:1px solid var(--brd2);cursor:pointer;font-family:inherit;background:var(--srf);color:var(--tx3);font-size:13px;font-weight:600;padding:0 13px;min-height:36px" style-hover="background:var(--pillH);color:var(--acc)">{{ g.label }}</button>
+            </sc-if>
+          </sc-for>
+        </div>
+        <button type="button" onClick="{{ openRoster }}" aria-label="Яка моя група?" title="Яка моя група?" style="cursor:pointer;font-family:inherit;border:1px solid var(--brd2);background:var(--srf);color:var(--tx3);width:36px;height:36px;border-radius:50%;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none" style-hover="background:var(--accSoft);color:var(--acc);border-color:var(--accBrd)">?</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isDesktopBar }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;align-items:stretch;gap:18px;flex-wrap:wrap;justify-content:space-between">
+      <div style="display:flex;align-items:stretch;gap:14px;flex-wrap:wrap;flex:0 1 auto">
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <sc-for list="{{ dayTabs }}" as="d" hint-placeholder-count="5">
+          <sc-if value="{{ d.active }}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{ d.onClick }}" style="border:none;cursor:pointer;font-family:inherit;background:var(--acc);color:#fff;font-size:16px;font-weight:700;padding:0 18px;min-height:48px;border-radius:999px">{{ d.label }}</button>
+          </sc-if>
+          <sc-if value="{{ d.inactive }}" hint-placeholder-val="{{ true }}">
+            <button type="button" onClick="{{ d.onClick }}" style="border:none;cursor:pointer;font-family:inherit;background:var(--pill);color:var(--tx4);font-size:16px;font-weight:600;padding:0 18px;min-height:48px;border-radius:999px" style-hover="background:var(--pillH);color:var(--acc)">{{ d.label }}</button>
+          </sc-if>
+        </sc-for>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;border:1px solid var(--brd2);border-radius:14px;padding:8px 12px;min-height:48px">
+        <span style="font-size:13px;font-weight:600;color:var(--tx3)">Показувати</span>
+        <div style="display:flex;border:1px solid var(--brd2);border-radius:999px;overflow:hidden">
+          <sc-for list="{{ groupTabs }}" as="g" hint-placeholder-count="3">
+            <sc-if value="{{ g.active }}" hint-placeholder-val="{{ false }}">
+              <button type="button" onClick="{{ g.onClick }}" style="border:none;cursor:pointer;font-family:inherit;background:var(--acc);color:#fff;font-size:13px;font-weight:700;padding:0 13px;min-height:38px">{{ g.label }}</button>
+            </sc-if>
+            <sc-if value="{{ g.inactive }}" hint-placeholder-val="{{ true }}">
+              <button type="button" onClick="{{ g.onClick }}" style="border:none;border-left:1px solid var(--brd2);cursor:pointer;font-family:inherit;background:var(--srf);color:var(--tx3);font-size:13px;font-weight:600;padding:0 13px;min-height:38px" style-hover="background:var(--pillH);color:var(--acc)">{{ g.label }}</button>
+            </sc-if>
+          </sc-for>
+        </div>
+        <button type="button" onClick="{{ openRoster }}" aria-label="Яка моя група?" title="Яка моя група?" style="cursor:pointer;font-family:inherit;border:1px solid var(--brd2);background:var(--srf);color:var(--tx3);width:38px;height:38px;border-radius:50%;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none" style-hover="background:var(--accSoft);color:var(--acc);border-color:var(--accBrd)">?</button>
+      </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:8px">
+        <div style="position:relative;flex:1">
+          <select value="{{ dayName }}" onChange="{{ onDaySelect }}" style="appearance:none;width:100%;min-height:46px;border-radius:999px;border:1px solid var(--brd2);background:var(--srf);font-family:inherit;font-size:16px;font-weight:700;color:var(--tx);padding:0 18px">
+            <sc-for list="{{ dayNames }}" as="d" hint-placeholder-count="5"><option value="{{ d }}">{{ d }}</option></sc-for>
+          </select>
+        </div>
+        <div style="position:relative;flex:1">
+          <select value="{{ groupName }}" onChange="{{ onGroupSelect }}" style="appearance:none;width:100%;min-height:46px;border-radius:999px;border:1px solid var(--brd2);background:var(--srf);font-family:inherit;font-size:16px;font-weight:700;color:var(--tx);padding:0 18px">
+            <sc-for list="{{ groupNames }}" as="g" hint-placeholder-count="3"><option value="{{ g }}">{{ g }}</option></sc-for>
+          </select>
+        </div>
+        <button type="button" onClick="{{ openRoster }}" aria-label="Яка моя група?" title="Яка моя група?" style="cursor:pointer;font-family:inherit;border:1px solid var(--brd2);background:var(--srf);color:var(--tx3);width:46px;height:46px;border-radius:50%;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">?</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <div style="display:flex;flex-wrap:wrap;gap:{{ cardGap }};align-items:stretch;max-width:{{ cardsMaxWidth }}">
+    <sc-for list="{{ cards }}" as="c" hint-placeholder-count="8">
+      <sc-if value="{{ c.isBreak }}" hint-placeholder-val="{{ false }}">
+        <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+          <div style="position:relative;align-self:stretch;flex:0 0 auto;width:40px;margin:0 -14px;display:flex;align-items:center;justify-content:center;background:var(--brk);border:1px solid var(--brkBrd);border-radius:8px;overflow:hidden">
+            <sc-if value="{{ c.isBreakNow }}" hint-placeholder-val="{{ false }}">
+              <span style="position:absolute;inset:0;border:6px solid var(--grn);border-radius:8px;pointer-events:none"></span>
+            </sc-if>
+            <span style="font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--brkTx);white-space:nowrap;transform:rotate(-90deg)">Перерва · {{ c.mins }} хв</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+          <div style="position:relative;flex:1 1 100%;width:100%;display:flex;align-items:center;justify-content:center;gap:6px;min-height:32px;border-radius:10px;background:var(--brk);border:1px solid var(--brkBrd)">
+            <sc-if value="{{ c.isBreakNow }}" hint-placeholder-val="{{ false }}">
+              <span style="position:absolute;inset:0;border:6px solid var(--grn);border-radius:10px;pointer-events:none"></span>
+            </sc-if>
+            <span style="font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--brkTx)">Перерва · {{ c.mins }} хв</span>
+          </div>
+        </sc-if>
+      </sc-if>
+      <sc-if value="{{ c.isLesson }}" hint-placeholder-val="{{ true }}">
+      <div id="{{ c.domId }}" onClick="{{ c.onFlip }}" style="perspective:1600px;cursor:pointer;flex:{{ lessonFlex }};min-width:{{ lessonMinWidth }}">
+      <div style="position:relative;height:100%;transform-style:preserve-3d;transition:transform 1.15s cubic-bezier(.22,.68,.16,1);transform:rotateY({{ c.rot }}deg)">
+      <div style="position:absolute;inset:0;border-radius:16px;box-shadow:var(--shCard);overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg) translateZ(1px);background:{{ c.back }}">
+        <span style="position:absolute;inset:0;background:{{ c.stripes }}"></span>
+      </div>
+      <div style="position:relative;background:var(--srf);border-radius:16px;box-shadow:var(--shCard);padding:18px;display:flex;flex-direction:column;gap:12px;overflow:hidden;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:translateZ(2px)">
+        <sc-if value="{{ c.isNow }}" hint-placeholder-val="{{ false }}">
+          <span style="position:absolute;inset:0;border:6px solid var(--grn);border-radius:16px;pointer-events:none"></span>
+        </sc-if>
+        <div style="display:flex;align-items:center;gap:9px">
+          <span style="background:var(--accSoft);color:var(--acc);border:1px solid var(--accBrd);font-size:11px;font-weight:800;letter-spacing:.06em;padding:5px 10px;border-radius:999px;flex:none">{{ c.badge }}</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#98A2B3" stroke-width="2.4" stroke-linecap="round" style="flex:none"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+          <span style="font-size:14px;font-weight:600;color:var(--tx3);font-variant-numeric:tabular-nums">{{ c.time }}</span>
+          <sc-if value="{{ c.isNow }}" hint-placeholder-val="{{ false }}">
+            <span style="margin-left:auto;background:var(--grnSoftH);color:var(--grnD);font-size:10px;font-weight:800;letter-spacing:.07em;padding:4px 9px;border-radius:999px">ЗАРАЗ</span>
+          </sc-if>
+          <sc-if value="{{ c.isNext }}" hint-placeholder-val="{{ false }}">
+            <span style="margin-left:auto;background:var(--accH);color:#fff;font-size:10px;font-weight:800;letter-spacing:.07em;padding:4px 9px;border-radius:999px">НАСТУПНИЙ</span>
+          </sc-if>
+        </div>
+
+        <div style="font-size:{{ subjectSize }};font-weight:800;letter-spacing:-.015em;line-height:1.25;text-wrap:pretty">{{ c.title }}</div>
+
+        <sc-if value="{{ c.showCodes }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <sc-for list="{{ c.codes }}" as="k" hint-placeholder-count="1">
+              <div style="display:flex;align-items:center;gap:6px">
+                <span style="font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--tx4)">{{ k.label }}</span>
+                <span style="font-size:13px;font-weight:800;color:var(--tx2);letter-spacing:.01em">{{ k.code }}</span>
+                <sc-if value="{{ k.copied }}" hint-placeholder-val="{{ false }}">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"></path></svg>
+                </sc-if>
+                <sc-if value="{{ k.idle }}" hint-placeholder-val="{{ true }}">
+                  <button type="button" onClick="{{ k.copy }}" aria-label="Копіювати код" style="border:none;background:none;padding:2px;cursor:pointer;display:flex;line-height:0" style-hover="opacity:.6">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#98A2B3" stroke-width="2.4" stroke-linecap="round"><rect x="9" y="9" width="12" height="12" rx="2.5"></rect><path d="M6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1"></path></svg>
+                  </button>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ c.noCode }}" hint-placeholder-val="{{ false }}">
+          <span style="font-size:12px;font-weight:600;color:var(--tx4)">Classroom code відсутній</span>
+        </sc-if>
+
+        <div style="height:1px;background:var(--div)"></div>
+
+        <sc-if value="{{ c.isSplit }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;gap:7px">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#98A2B3" stroke-width="2.4" stroke-linecap="round"><path d="M16 20v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="3.2"></circle><path d="M22 20v-2a4 4 0 0 0-3-3.8"></path><path d="M16.5 4.2a3.2 3.2 0 0 1 0 5.6"></path></svg>
+              <span style="font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--tx4)">Поділ на підгрупи</span>
+            </div>
+            <sc-for list="{{ c.rows }}" as="r" hint-placeholder-count="2">
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                <sc-if value="{{ r.isG1 }}" hint-placeholder-val="{{ true }}">
+                  <span style="background:var(--accSoft);color:var(--acc);border:1px solid var(--accBrd);font-size:10px;font-weight:800;letter-spacing:.07em;padding:4px 9px;border-radius:999px;flex:none">ГРУПА 1</span>
+                </sc-if>
+                <sc-if value="{{ r.isG2 }}" hint-placeholder-val="{{ false }}">
+                  <span style="background:var(--grnSoft);color:var(--grnD);border:1px solid var(--grnBrd);font-size:10px;font-weight:800;letter-spacing:.07em;padding:4px 9px;border-radius:999px;flex:none">ГРУПА 2</span>
+                </sc-if>
+                <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                  <sc-if value="{{ r.subject }}" hint-placeholder-val="{{ false }}">
+                    <span style="font-size:13px;font-weight:700;color:var(--acc)">{{ r.subject }}</span>
+                  </sc-if>
+                  <span style="font-size:15px;font-weight:600;color:var(--tx)">{{ r.teacher }}</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:5px;margin-left:auto;flex:none">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#98A2B3" stroke-width="2.4" stroke-linecap="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"></path><circle cx="12" cy="10" r="2.6"></circle></svg>
+                  <span style="font-size:14px;font-weight:700;color:var(--tx2)">{{ r.room }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ c.isSingle }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;align-items:center;gap:10px;background:var(--soft);border-radius:10px;padding:10px 12px">
+            <span style="font-size:15px;font-weight:600;color:var(--tx);min-width:0">{{ c.teacher }}</span>
+            <div style="display:flex;align-items:center;gap:5px;margin-left:auto;flex:none">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#98A2B3" stroke-width="2.4" stroke-linecap="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"></path><circle cx="12" cy="10" r="2.6"></circle></svg>
+              <span style="font-size:14px;font-weight:700;color:var(--tx2)">{{ c.room }}</span>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ c.showCtas }}" hint-placeholder-val="{{ true }}">
+        <div onClick="{{ stopClick }}" style="margin-top:auto;display:flex;flex-direction:column;gap:8px;padding-top:2px">
+          <sc-for list="{{ c.ctas }}" as="b" hint-placeholder-count="1">
+            <sc-if value="{{ b.primary }}" hint-placeholder-val="{{ false }}">
+              <a href="{{ b.href }}" target="_blank" rel="noopener" style="flex:1;background:var(--acc);color:#fff;font-size:15px;font-weight:700;min-height:46px;border-radius:999px;display:flex;align-items:center;justify-content:center;text-align:center" style-hover="background:var(--accH);color:#fff">{{ b.label }}</a>
+            </sc-if>
+            <sc-if value="{{ b.secondary }}" hint-placeholder-val="{{ true }}">
+              <a href="{{ b.href }}" target="_blank" rel="noopener" style="flex:1;background:var(--accSoft);color:var(--acc);border:1px solid var(--accBrd);font-size:15px;font-weight:700;min-height:46px;border-radius:999px;display:flex;align-items:center;justify-content:center;text-align:center" style-hover="background:var(--accSoftH);color:var(--accH)">{{ b.label }}</a>
+            </sc-if>
+            <sc-if value="{{ b.missing }}" hint-placeholder-val="{{ false }}">
+              <span style="flex:1;background:var(--redSoft);color:var(--red);font-size:15px;font-weight:700;min-height:46px;border-radius:999px;display:flex;align-items:center;justify-content:center;cursor:not-allowed">{{ b.label }}</span>
+            </sc-if>
+          </sc-for>
+        </div>
+        </sc-if>
+      </div>
+      </div>
+      </div>
+      </sc-if>
+    </sc-for>
+  </div>
+
+  <div style="font-size:11px;font-weight:500;color:var(--tx4);padding:4px 0 8px">
+    Дані розкладу дистанційного навчання 6 класу, Ліцей №141. Знайшли помилку або маєте ідею?</div>
+</div>
+
+<sc-if value="{{ rosterOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeRoster }}" style="position:fixed;inset:0;background:rgba(16,20,30,.5);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50">
+    <div onClick="{{ stopClick }}" style="background:var(--srf);border-radius:18px;max-width:720px;width:100%;max-height:85vh;overflow:auto;padding:22px;display:flex;flex-direction:column;gap:18px;box-shadow:var(--shCard)">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <span style="font-size:19px;font-weight:800;letter-spacing:-.01em">Розподіл дітей на групи</span>
+          <button type="button" onClick="{{ closeRoster }}" aria-label="Закрити" style="cursor:pointer;border:none;background:var(--chip);color:var(--tx3);width:32px;height:32px;border-radius:50%;font-size:16px;font-weight:700;flex:none" style-hover="background:var(--pillH);color:var(--acc)">×</button>
+        </div>
+        <span style="font-size:13px;font-weight:500;color:var(--tx3)">Впиши своє прізвище, щоб швидко зрозуміти, в якій ти групі</span>
+      </div>
+      <div style="position:relative">
+        <input value="{{ rosterQuery }}" onChange="{{ onRosterQuery }}" placeholder="Прізвище" style="width:100%;min-height:44px;border-radius:999px;border:1px solid var(--brd2);background:var(--pg);font-family:inherit;font-size:14px;color:var(--tx);padding:0 44px 0 18px">
+        <sc-if value="{{ rosterQueryOn }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ clearRosterQuery }}" aria-label="Очистити" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);cursor:pointer;border:none;background:var(--chip);color:var(--tx3);width:32px;height:32px;border-radius:50%;font-size:15px;font-weight:700" style-hover="background:var(--pillH);color:var(--acc)">×</button>
+        </sc-if>
+      </div>
+      <sc-if value="{{ rosterAnswerOn }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:8px;background:var(--pg);border-radius:14px;padding:14px 16px">
+          <span style="font-size:13px;font-weight:800;color:var(--tx)">{{ rosterAnswerName }}</span>
+          <sc-for list="{{ rosterAnswer }}" as="ra" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:14px">
+              <span style="color:var(--tx2);font-weight:600">{{ ra.title }}</span>
+              <span style="font-weight:800;color:var(--acc)">{{ ra.group }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-for list="{{ rosterGroups }}" as="rg" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-size:15px;font-weight:800">{{ rg.title }}</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:13px;font-weight:800;color:var(--acc)">{{ rg.g1Label }}</span>
+              <sc-for list="{{ rg.g1 }}" as="p" hint-placeholder-count="4">
+                <sc-if value="{{ p.hit }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size:13px;font-weight:800;color:#1A1500;background:#FFC107;border-radius:6px;padding:2px 6px;margin:-2px -6px;width:fit-content">{{ p.name }}</span>
+                </sc-if>
+                <sc-if value="{{ p.notHit }}" hint-placeholder-val="{{ true }}">
+                  <span style="font-size:13px;font-weight:500;color:var(--tx2)">{{ p.name }}</span>
+                </sc-if>
+              </sc-for>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:13px;font-weight:800;color:#16A34A">{{ rg.g2Label }}</span>
+              <sc-for list="{{ rg.g2 }}" as="p" hint-placeholder-count="4">
+                <sc-if value="{{ p.hit }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size:13px;font-weight:800;color:#1A1500;background:#FFC107;border-radius:6px;padding:2px 6px;margin:-2px -6px;width:fit-content">{{ p.name }}</span>
+                </sc-if>
+                <sc-if value="{{ p.notHit }}" hint-placeholder-val="{{ true }}">
+                  <span style="font-size:13px;font-weight:500;color:var(--tx2)">{{ p.name }}</span>
+                </sc-if>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="height:1px;background:var(--div)"></div>
+      </sc-for>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ settingsOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeSettings }}" style="position:fixed;inset:0;z-index:60">
+    <div onClick="{{ stopClick }}" style="position:absolute;top:76px;right:20px;width:300px;max-width:90vw;background:var(--srf);border-radius:16px;border:1px solid var(--brd2);box-shadow:var(--shCard);padding:16px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+        <span style="font-size:15px;font-weight:800;letter-spacing:-.01em">Налаштування</span>
+        <button type="button" onClick="{{ closeSettings }}" aria-label="Закрити" style="cursor:pointer;border:none;background:var(--chip);color:var(--tx3);width:28px;height:28px;border-radius:50%;font-size:14px;font-weight:700" style-hover="background:var(--pillH);color:var(--acc)">×</button>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+        <span style="font-size:13px;font-weight:600;color:var(--tx2)">Показати код класруму</span>
+        <sc-if value="{{ codeOn }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ toggleCode }}" aria-label="Код класруму" style="cursor:pointer;border:none;width:38px;height:22px;border-radius:999px;background:var(--acc);padding:3px;flex:none;display:flex;justify-content:flex-end;align-items:center">
+            <span style="width:16px;height:16px;border-radius:50%;background:var(--knob);box-shadow:0 1px 2px rgba(16,24,40,.25)"></span>
+          </button>
+        </sc-if>
+        <sc-if value="{{ codeOff }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ toggleCode }}" aria-label="Код класруму" style="cursor:pointer;border:none;width:38px;height:22px;border-radius:999px;background:var(--off);padding:3px;flex:none;display:flex;justify-content:flex-start;align-items:center">
+            <span style="width:16px;height:16px;border-radius:50%;background:var(--knob);box-shadow:0 1px 2px rgba(16,24,40,.25)"></span>
+          </button>
+        </sc-if>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+        <span style="font-size:13px;font-weight:600;color:var(--tx2)">Показати кнопки приєднатись</span>
+        <sc-if value="{{ joinOn }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ toggleJoin }}" aria-label="Показати кнопки приєднатись" style="cursor:pointer;border:none;width:38px;height:22px;border-radius:999px;background:var(--acc);padding:3px;flex:none;display:flex;justify-content:flex-end;align-items:center">
+            <span style="width:16px;height:16px;border-radius:50%;background:var(--knob);box-shadow:0 1px 2px rgba(16,24,40,.25)"></span>
+          </button>
+        </sc-if>
+        <sc-if value="{{ joinOff }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ toggleJoin }}" aria-label="Показати кнопки приєднатись" style="cursor:pointer;border:none;width:38px;height:22px;border-radius:999px;background:var(--off);padding:3px;flex:none;display:flex;justify-content:flex-start;align-items:center">
+            <span style="width:16px;height:16px;border-radius:50%;background:var(--knob);box-shadow:0 1px 2px rgba(16,24,40,.25)"></span>
+          </button>
+        </sc-if>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+        <span style="font-size:13px;font-weight:600;color:var(--tx2)">Темна тема</span>
+        <sc-if value="{{ isDark }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ toggleTheme }}" aria-label="Темна тема" style="cursor:pointer;border:none;width:38px;height:22px;border-radius:999px;background:var(--acc);padding:3px;flex:none;display:flex;justify-content:flex-end;align-items:center">
+            <span style="width:16px;height:16px;border-radius:50%;background:var(--knob);box-shadow:0 1px 2px rgba(16,24,40,.25)"></span>
+          </button>
+        </sc-if>
+        <sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ toggleTheme }}" aria-label="Темна тема" style="cursor:pointer;border:none;width:38px;height:22px;border-radius:999px;background:var(--off);padding:3px;flex:none;display:flex;justify-content:flex-start;align-items:center">
+            <span style="width:16px;height:16px;border-radius:50%;background:var(--knob);box-shadow:0 1px 2px rgba(16,24,40,.25)"></span>
+          </button>
+        </sc-if>
+      </div>
+      <div style="height:1px;background:var(--brd2)"></div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ popupOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;background:rgba(16,20,30,.6);display:flex;align-items:center;justify-content:center;z-index:90;padding:20px">
+    <div style="position:relative;width:80%;height:80%;max-width:900px;background:var(--srf);border-radius:24px;box-shadow:var(--shCard);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:40px;text-align:center">
+      <button type="button" onClick="{{ closePopup }}" aria-label="Закрити" style="position:absolute;top:24px;right:24px;cursor:pointer;border:none;background:var(--chip);color:var(--tx2);width:48px;height:48px;border-radius:50%;font-size:24px;font-weight:700" style-hover="background:var(--pillH);color:var(--acc)">×</button>
+      <span style="width:14px;height:14px;border-radius:50%;background:var(--grn);animation:pulseDot 1.8s infinite"></span>
+      <h2 style="margin:0;font-size:clamp(32px,6vw,64px);font-weight:800;letter-spacing:-.02em;text-transform:uppercase;line-height:1.1">{{ popupTitle }}</h2>
+      <div style="display:flex;flex-direction:column;gap:12px;width:100%;max-width:420px">
+        <sc-for list="{{ popupCtas }}" as="pb" hint-placeholder-count="1">
+          <a href="{{ pb.href }}" target="_blank" rel="noopener" style="background:var(--acc);color:#fff;font-size:18px;font-weight:700;min-height:56px;border-radius:999px;display:flex;align-items:center;justify-content:center;text-align:center" style-hover="background:var(--accH);color:#fff">{{ pb.label }}</a>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showCodeByDefault&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behavior&quot;},&quot;defaultGroup&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Всі групи&quot;,&quot;Група 1&quot;,&quot;Група 2&quot;],&quot;default&quot;:&quot;Всі групи&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Behavior&quot;}}">
+const Z = {
+  eng1:'https://us05web.zoom.us/j/97696322228?pwd=SDFNc3VrSVJFK1hvZUNnQjJtRkhadz09',
+  eng2:'https://us05web.zoom.us/j/84332767849?pwd=l8q1hGjunFxtDkJVx7NRiw1B0jVK5r.1',
+  nature:'https://us04web.zoom.us/j/79462592662?pwd=DArlHaJpFcMZWbQ8aI7ZEXKbSskgae.1',
+  geo:'https://us04web.zoom.us/j/79189413443?pwd=omjtS9ybQdxY7XoUncpNQeh8xl8SB8.1',
+  jew:'https://meet.google.com/jxx-nffs-vyy',
+  lit:'https://us04web.zoom.us/j/74169486026?pwd=fNqMRGixP6nmWb2tI5xmGIlKbEFZiq.1',
+  pe:'https://us04web.zoom.us/j/7868333293?pwd=bFA5aTBYbVFQTmlsNXNHNG1wUEdudz09',
+  art:'https://us04web.zoom.us/j/8357178574?pwd=R1NIY0twQmRJNENNaTFKZWNwTS9YUT09',
+  math:'https://meet.google.com/jri-ubkt-fio',
+  soc:'https://meet.google.com/snh-xmke-vvt',
+  tech1:'https://meet.google.com/prj-gtfy-vhx',
+  tech2:'https://meet.google.com/amx-nqhp-eug',
+  ivrit1:'https://us02web.zoom.us/j/89381270132?pwd=aTPzXvsk8TDLUPuYulRpie4KSgMCmI.1',
+  ivrit2:'https://us05web.zoom.us/j/83178880581?pwd=Pg9tuIYr1ZoPorSAe3F7IKgdjFxgAS.1'
+};
+const T = ['09:00-09:45','09:55-10:40','10:50-11:35','11:55-12:40','13:00-13:45','13:55-14:40','14:50-15:35','15:45-16:30'];
+const S = {
+  eng1:{ subject:'Англійська мова', teacher:'Лопатіна Н.М.', room:'308', sync:Z.eng1, code:'vtr2p5xh' },
+  eng2:{ subject:'Англійська мова', teacher:'Голюга Я.С.', room:'304', sync:Z.eng2, code:'7e6ywsxh' },
+  ukr1:{ subject:'Українська мова', teacher:'Гончаренко Т.А.', room:'110', sync:Z.lit, code:'r7jy7fnj' },
+  ukr2:{ subject:'Українська мова', teacher:'Гончаренко Т.А.', room:'110', sync:Z.lit, code:'45dqajlo' },
+  tech1:{ subject:'Технології', teacher:'Коваленко М.І.', room:'319', sync:Z.tech1, code:'2ynwz5da' },
+  tech2:{ subject:'Технології', teacher:'Коваленко М.І.', room:'319', sync:Z.tech2, code:'z4qgvtf7' },
+  inf:{ subject:'Інформатика', teacher:'Вакансія', room:'330', sync:'', code:'' },
+  ivrit1:{ subject:'Іврит', teacher:'Сіра М.В.', room:'409', sync:Z.ivrit1, code:'vfoeyrie' },
+  ivrit2:{ subject:'Іврит', teacher:'Тюпа К.О.', room:'408', sync:Z.ivrit2, code:'ey6c6ihj' },
+  math:{ subject:'Математика', teacher:'Краснова О.О.', room:'209', sync:Z.math, code:'vs52h7de' },
+  lit:{ subject:'Література', teacher:'Гончаренко Т.А.', room:'110', sync:Z.lit, code:'ihikclig' },
+  pe:{ subject:'Фізична культура', teacher:'Мартиненко О.С.', room:'СЗ 1-1', sync:Z.pe, code:'pfsjtthy' },
+  nature:{ subject:'Пізнаємо природу', teacher:'Шимановська М.В.', room:'212', sync:Z.nature, code:'ae6bzph6' },
+  health:{ subject:"Здоров'я, безпека та добробут", teacher:'Шимановська М.В.', room:'212', sync:Z.nature, code:'gt6yrv2v' },
+  geo:{ subject:'Географія', teacher:'Корнієнко О.М.', room:'410', sync:Z.geo, code:'yffu2d74' },
+  soc:{ subject:'Досліджуємо історію і суспільство', teacher:'Золотарьов В.А.', room:'402', sync:Z.soc, code:'zrb75fuv' },
+  jew:{ subject:'Історія та культурна спадщина єврейського народу', teacher:'Кузовков В.В.', room:'405', sync:Z.jew, code:'76vq7czb' },
+  art:{ subject:'Мистецтво', teacher:'Редько І.І.', room:'405', sync:Z.art, code:'3kcrlpro' }
+};
+const one = (n, k) => Object.assign({ n, time:T[n-1] }, S[k]);
+const two = (n, a, b) => ({ n, time:T[n-1], groups:[S[a], S[b]] });
+const DAYS = [
+  { name:'Понеділок', lessons:[ two(1,'eng1','eng2'), two(2,'eng1','eng2'), one(3,'nature'), one(4,'nature'), one(5,'geo'), one(6,'jew'), one(7,'lit'), one(8,'pe') ] },
+  { name:'Вівторок', lessons:[ one(1,'art'), one(2,'math'), one(3,'math'), one(4,'soc'), one(5,'lit'), one(6,'lit'), one(7,'pe') ] },
+  { name:'Середа', lessons:[ one(1,'math'), one(2,'math'), two(3,'tech1','ukr2'), two(4,'tech1','ukr2'), two(5,'ukr1','tech2'), two(6,'ukr1','tech2') ] },
+  { name:'Четвер', lessons:[ two(1,'inf','ukr2'), two(2,'inf','ukr2'), two(3,'ukr1','inf'), two(4,'ukr1','inf'), one(5,'math'), two(6,'eng1','eng2'), one(7,'pe') ] },
+  { name:"П'ятниця", lessons:[ one(1,'health'), one(2,'soc'), two(3,'ivrit1','ivrit2'), two(4,'ivrit1','ivrit2'), two(5,'eng1','eng2'), two(6,'eng1','eng2') ] }
+];
+const DARK = {
+  '--pg': '#131318', '--srf': '#1D1D25', '--knob': '#FFFFFF', '--brd': '#2C2C38', '--brd2': '#343442',
+  '--div': '#2A2A34', '--soft': '#24242E',
+  '--tx': '#F3F3F8', '--tx2': '#C6C6D4', '--tx3': '#A2A2B4', '--tx4': '#83839A',
+  '--acc': '#8B85FF', '--accH': '#ADA8FF', '--accSoft': '#292546', '--accSoftH': '#332E57', '--accBrd': '#413B6E',
+  '--pill': '#26262F', '--pillH': '#302B4C', '--off': '#3A3A48', '--chip': '#24242E',
+  '--grn': '#34D399', '--grnD': '#5BE0AC', '--grnD2': '#A7F3D0', '--grnSoft': '#16302A', '--grnSoftH': '#1D4038', '--grnBrd': '#22503F',
+  '--redSoft': '#3A1D1F', '--red': '#FCA5A5',
+  '--sky': '#7DD3FC', '--skyD': '#BAE6FD', '--skySoft': '#0C2A3D', '--skyBrd': '#164E63',
+  '--brk': '#2A2140', '--brkBrd': '#3D2F5C', '--brkTx': '#C4A6F0', '--brkNow': '#B084F0',
+  '--shCard': '0 0 0 1px #2C2C38,0 2px 6px rgba(0,0,0,.45)', '--sh1': '0 1px 2px rgba(0,0,0,.4)'
+};
+function mulberry(seed) {
+  let a = seed >>> 0;
+  return function () { a += 0x6D2B79F5; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+}
+function backFace(seed) {
+  const r = mulberry(seed * 2654435761);
+  const pick = (n) => Math.floor(r() * n);
+  const hue = pick(360);
+  const hues = [hue, (hue + 40 + pick(60)) % 360, (hue + 140 + pick(70)) % 360, (hue + 220 + pick(60)) % 360, (hue + 300 + pick(40)) % 360];
+  const col = (i, l) => 'hsl(' + hues[i] + ' ' + (78 + pick(20)) + '% ' + l + '%)';
+  const blobs = [];
+  const count = 3 + pick(3);
+  for (let i = 0; i < count; i++) {
+    const x = 8 + pick(84), y = 8 + pick(84), sz = 10 + pick(20);
+    blobs.push('radial-gradient(circle at ' + x + '% ' + y + '%,' + col(i % 5, 52 + pick(16)) + ' 0 ' + sz + '%,transparent ' + (sz + 1) + '%)');
+  }
+  blobs.push('conic-gradient(from ' + pick(360) + 'deg at ' + (30 + pick(40)) + '% ' + (30 + pick(40)) + '%,' + col(0, 55) + ',' + col(1, 60) + ',' + col(2, 50) + ',' + col(3, 62) + ',' + col(4, 52) + ',' + col(0, 55) + ')');
+  const ang = pick(180);
+  const w = 8 + pick(14);
+  const stripes = 'repeating-linear-gradient(' + ang + 'deg,rgba(255,255,255,.18) 0 ' + w + 'px,rgba(0,0,0,.14) ' + w + 'px ' + (w * 2) + 'px)';
+  return { bg: blobs.join(','), stripes: stripes };
+}
+const ORDINALS = ['', 'перший', 'другий', 'третій', 'четвертий', "п'ятий", 'шостий', 'сьомий', 'восьмий'];
+const WD_SHORT = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+const WEEKDAYS = ['неділя', 'понеділок', 'вівторок', 'середа', 'четвер', "п'ятниця", 'субота'];
+const MONTHS = ['січня', 'лютого', 'березня', 'квітня', 'травня', 'червня', 'липня', 'серпня', 'вересня', 'жовтня', 'листопада', 'грудня'];
+const ROSTERS = [
+  { title: 'Іврит', g1: ['Бабченко Ніколь','Василевська Вероніка','Вербицький Владислав','Ворінко Анна','Герман Даніїл','Дещенко Олександр','Кабанець Анастасія','Кириленко Руслан','Куліш Максим','Маньківський Михаїл','Подскребалін Даніель','Рімкус Владислав','Роженко Альвіна','Старосвітська Антоніна','Шевченко Марія','Шевченко Матвій','Яцик Дмитро'],
+    g2: ['Бондарчук Ярослав','Борщик Марк','Воєводіна Злата','Гальмакова Дея','Зелінська Злата','Катренко Катерина','Керекеш Євгеній','Мороз Іван','Окатий Андрій','Оліферчук Анна','Пашина Катерина','Семенюк Віолетта','Старченко Діана','Тихончук Софія','Шевченко Руслана'] },
+  { title: 'Англійська мова', g1: ['Бабченко Ніколь','Бондарчук Ярослав','Герман Даніїл','Зелінська Злата','Катренко Катерина','Куліш Максим','Маньківський Михаїл','Мороз Іван','Оліферчук Анна','Пашина Катерина','Рімкус Владислав','Семенюк Віолетта','Старченко Діана','Тихончук Софія','Шевченко Марія','Яцик Дмитро'],
+    g2: ['Борщик Марк','Василевська Вероніка','Вербицький Владислав','Воєводіна Злата','Ворінко Анна','Гальмакова Дея','Дещенко Олександр','Кабанець Анастасія','Керекеш Євгеній','Кириленко Руслан','Окатий Андрій','Подскребалін Даніель','Роженко Альвіна','Старосвітська Антоніна','Шевченко Матвій','Шевченко Руслана'] },
+  { title: 'Українська мова, Технології, Інформатика', g1: ['Бабченко Ніколь','Бондарчук Ярослав','Борщик Марк','Василевська Вероніка','Вербицький Владислав','Воєводіна Злата','Гальмакова Дея','Герман Даніїл','Дещенко Олександр','Зелінська Злата','Кабанець Анастасія','Катренко Катерина','Керекеш Євгеній','Кириленко Руслан','Куліш Максим','Маньківський Михаїл'],
+    g2: ['Ворінко Анна','Мороз Іван','Окатий Андрій','Оліферчук Анна','Пашина Катерина','Подскребалін Даніель','Рімкус Владислав','Роженко Альвіна','Семенюк Віолетта','Старосвітська Антоніна','Старченко Діана','Тихончук Софія','Шевченко Марія','Шевченко Матвій','Шевченко Руслана','Яцик Дмитро'] }
+];
+const GROUP_LABELS = { all:'Всі групи', '1':'Група 1', '2':'Група 2' };
+const mins = (hm) => { const p = hm.split(':'); return (+p[0]) * 60 + (+p[1]); };
+const range = (t) => { const p = t.split('-'); return [mins(p[0]), mins(p[1])]; };
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    let group = 'all', code = false;
+    try {
+      const g = localStorage.getItem('lyceum141.group');
+      if (g === 'all' || g === '1' || g === '2') group = g;
+      else if (props.defaultGroup === 'Група 1') group = '1';
+      else if (props.defaultGroup === 'Група 2') group = '2';
+      const c = localStorage.getItem('lyceum141.code');
+      if (c === '1' || c === '0') code = c === '1';
+      else code = !!props.showCodeByDefault;
+      const j = localStorage.getItem('lyceum141.join');
+      if (j === '1' || j === '0') this.joinInit = j === '1';
+      const t = localStorage.getItem('lyceum141.theme');
+      if (t === 'dark' || t === 'light') this.darkInit = t === 'dark';
+    } catch (e) {}
+    if (typeof this.darkInit !== 'boolean') {
+      this.darkInit = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    if (typeof this.joinInit !== 'boolean') this.joinInit = true;
+    const wd = new Date().getDay();
+    this.state = {
+      day: wd >= 1 && wd <= 5 ? wd - 1 : 0,
+      group, showCode: code, showJoin: this.joinInit, dark: this.darkInit, rot: {}, now: new Date(), copied: null, popup: null,
+      w: typeof window !== 'undefined' ? window.innerWidth : 1440
+    };
+  }
+  applyTheme(dark) {
+    const r = document.documentElement;
+    Object.keys(DARK).forEach((k) => { if (dark) r.style.setProperty(k, DARK[k]); else r.style.removeProperty(k); });
+    r.style.colorScheme = dark ? 'dark' : 'light';
+  }
+  toggleTheme = () => {
+    const v = !this.state.dark;
+    this.setState({ dark: v });
+    this.applyTheme(v);
+    try { localStorage.setItem('lyceum141.theme', v ? 'dark' : 'light'); } catch (e) {}
+  };
+  componentDidMount() {
+    this.applyTheme(this.state.dark);
+    this.timer = setInterval(() => this.setState({ now: new Date() }), 15000);
+    this.bannerTimer = setTimeout(() => this.setState({ showRefreshBanner: true }), 20000);
+
+    this.onResize = () => this.setState({ w: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+  }
+  componentWillUnmount() { clearInterval(this.timer); clearTimeout(this._popupTimer); clearTimeout(this.bannerTimer); window.removeEventListener('resize', this.onResize); }
+
+  setGroup(g) {
+    this.setState({ group: g });
+    try { localStorage.setItem('lyceum141.group', g); } catch (e) {}
+  }
+  toggleCode = () => {
+    const v = !this.state.showCode;
+    this.setState({ showCode: v });
+    try { localStorage.setItem('lyceum141.code', v ? '1' : '0'); } catch (e) {}
+  };
+  openRoster = () => this.setState({ rosterOpen: true, rosterQuery: '' });
+  closeRoster = () => this.setState({ rosterOpen: false });
+  toggleSettings = () => this.setState({ settingsOpen: !this.state.settingsOpen });
+  closeSettings = () => this.setState({ settingsOpen: false });
+  refreshPage = () => { try { window.location.reload(); } catch (e) {} };
+  dismissBanner = () => this.setState({ showRefreshBanner: false });
+  onRosterQuery = (e) => this.setState({ rosterQuery: e.target.value });
+  clearRosterQuery = () => this.setState({ rosterQuery: '' });
+  flip(key) {
+    const rot = Object.assign({}, this.state.rot || {});
+    const cur = rot[key] || 0;
+    const isBack = (cur / 180) % 2 === 1;
+    const halves = isBack ? 3 + 2 * Math.floor(Math.random() * 2) : 3 + Math.floor(Math.random() * 4);
+    rot[key] = cur + 180 * halves;
+    this.setState({ rot: rot });
+    setTimeout(() => {
+      const ns = Object.assign({}, this.state.rot || {});
+      const day = DAYS[this.state.day];
+    }, 1200);
+  }
+  stopClick = (e) => { e.stopPropagation(); };
+  toggleJoin = () => {
+    const v = !this.state.showJoin;
+    this.setState({ showJoin: v });
+    try { localStorage.setItem('lyceum141.join', v ? '1' : '0'); } catch (e) {}
+  };
+  copy(code) {
+    const done = () => { this.setState({ copied: code }); setTimeout(() => { if (this.state.copied === code) this.setState({ copied: null }); }, 1600); };
+    try { navigator.clipboard.writeText(code).then(done, done); } catch (e) { done(); }
+  }
+
+  view(lesson) {
+    const g = this.state.group;
+    if (!lesson.groups) return { single: lesson, split: null };
+    if (g === '1') return { single: lesson.groups[0], split: null };
+    if (g === '2') return { single: lesson.groups[1], split: null };
+    return { single: null, split: lesson.groups };
+  }
+
+  renderVals() {
+    const st = this.state;
+    const rq = (st.rosterQuery || '').trim().toLowerCase();
+    let rosterMatchName = null;
+    if (rq.length > 1) {
+      for (const p of ROSTERS[0].g1.concat(ROSTERS[0].g2)) {
+        if (p.toLowerCase().includes(rq)) { rosterMatchName = p; break; }
+      }
+    }
+    const rosterAnswer = rosterMatchName ? ROSTERS.map((r) => ({
+      title: r.title,
+      group: r.g1.includes(rosterMatchName) ? (r.g1Label || 'Група 1') : (r.g2.includes(rosterMatchName) ? (r.g2Label || 'Група 2') : '—')
+    })) : [];
+    const accent = this.props.accent || '#5046E6';
+    const isMobile = st.w <= 768;
+    const isTablet = st.w > 768 && st.w <= 1100;
+    const isDesktopBar = st.w > 1100;
+    const day = DAYS[st.day];
+    const nowM = st.now.getHours() * 60 + st.now.getMinutes();
+
+    let curIdx = -1, nextIdx = -1;
+    day.lessons.forEach((l, i) => {
+      const r = range(l.time);
+      if (nowM >= r[0] && nowM < r[1]) curIdx = i;
+    });
+    if (curIdx < 0) {
+      for (let i = 0; i < day.lessons.length; i++) {
+        if (nowM < range(day.lessons[i].time)[0]) { nextIdx = i; break; }
+      }
+    } else if (curIdx + 1 < day.lessons.length) nextIdx = curIdx + 1;
+
+    const isToday = st.now.getDay() === st.day + 1;
+    const cards = day.lessons.map((l, i) => {
+      const v = this.view(l);
+      const isNow = isToday && i === curIdx, isNext = isToday && i === nextIdx && curIdx !== nextIdx;
+      let title, rows = [], codes = [], ctas = [], teacher = '', room = '';
+      if (v.split) {
+        const a = v.split[0], b = v.split[1];
+        const same = a.subject === b.subject;
+        title = same ? a.subject : a.subject + ' / ' + b.subject;
+        rows = [
+          { isG1: true, isG2: false, subject: same ? '' : a.subject, teacher: a.teacher, room: a.room },
+          { isG1: false, isG2: true, subject: same ? '' : b.subject, teacher: b.teacher, room: b.room }
+        ];
+        if (a.code && b.code && a.code === b.code) codes = [{ label: 'КЛАСРУМ КОД:', code: a.code }];
+        else {
+          if (a.code) codes.push({ label: 'КЛАСРУМ Г1:', code: a.code });
+          if (b.code) codes.push({ label: 'КЛАСРУМ Г2:', code: b.code });
+        }
+        if (a.sync && b.sync && a.sync === b.sync) ctas = [{ label: 'Приєднатися онлайн', href: a.sync }];
+        else if (a.sync || b.sync) ctas = [{ label: a.sync ? 'Група 1, приєднатися' : 'Група 1 — немає', href: a.sync }, { label: b.sync ? 'Група 2, приєднатися' : 'Група 2 — немає', href: b.sync }];
+        else ctas = [{ label: 'Посилання відсутнє', href: '' }];
+      } else {
+        const s = v.single;
+        title = s.subject; teacher = s.teacher; room = s.room;
+        if (s.code) codes = [{ label: 'КЛАСРУМ КОД:', code: s.code }];
+        ctas = [{ label: s.sync ? 'Приєднатися онлайн' : 'Посилання відсутнє', href: s.sync }];
+      }
+      return {
+        domId: 'lesson-' + l.n,
+        rot: (st.rot && st.rot[l.n]) || 0,
+        back: backFace(st.day * 101 + l.n * 17 + 7).bg,
+        stripes: backFace(st.day * 101 + l.n * 17 + 7).stripes,
+        onFlip: () => this.flip(l.n),
+        isLesson: true, isBreak: false,
+        badge: 'УРОК ' + l.n, time: l.time.replace('-', ' – '), title,
+        isNow, isNext, isSplit: !!v.split, isSingle: !v.split, teacher, room, rows,
+        showCtas: st.showJoin,
+        showCodes: st.showCode && codes.length > 0,
+        noCode: st.showCode && codes.length === 0,
+        codes: codes.map((k) => ({
+          label: k.label, code: k.code,
+          copied: st.copied === k.code, idle: st.copied !== k.code,
+          copy: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.copy(k.code); }
+        })),
+        ctas: ctas.map((b) => ({
+          label: b.label, href: b.href || undefined,
+          primary: !!b.href && isNow, secondary: !!b.href && !isNow, missing: !b.href
+        }))
+      };
+    });
+
+    const breaksArr = [];
+    for (let i = 0; i < day.lessons.length - 1; i++) {
+      const endCur = range(day.lessons[i].time)[1];
+      const startNext = range(day.lessons[i + 1].time)[0];
+      const dur = startNext - endCur;
+      if (dur > 0) breaksArr[i] = { mins: dur, isBreakNow: isToday && nowM >= endCur && nowM < startNext };
+    }
+    const cardsWithBreaks = [];
+    cards.forEach((c, i) => {
+      cardsWithBreaks.push(c);
+      if (breaksArr[i]) cardsWithBreaks.push({ isLesson: false, isBreak: true, domId: 'break-' + i, mins: breaksArr[i].mins, isBreakNow: breaksArr[i].isBreakNow, lineColor: breaksArr[i].isBreakNow ? 'var(--brkNow)' : 'var(--brk)' });
+    });
+
+    const wd = st.now.getDay();
+    const realDay = wd >= 1 && wd <= 5 ? wd - 1 : -1;
+    let liveCur = -1, liveNext = -1, liveN = 0;
+    if (realDay >= 0) {
+      const ls = DAYS[realDay].lessons;
+      ls.forEach((l, i) => { const r = range(l.time); if (nowM >= r[0] && nowM < r[1]) liveCur = i; });
+      if (liveCur < 0) { for (let i = 0; i < ls.length; i++) { if (nowM < range(ls[i].time)[0]) { liveNext = i; break; } } }
+      const li = liveCur >= 0 ? liveCur : liveNext;
+      if (li >= 0) liveN = ls[li].n;
+    }
+    const jumpToLive = () => {
+      if (realDay < 0 || !liveN) return;
+      const n = liveN;
+      this.setState({ day: realDay }, () => {
+        setTimeout(() => {
+          const el = document.getElementById('lesson-' + n);
+          if (!el) return;
+          const top = el.getBoundingClientRect().top + window.pageYOffset - 24;
+          window.scrollTo({ top: top, behavior: 'smooth' });
+        }, 60);
+      });
+    };
+
+    return {
+      pagePad: isMobile ? '16px' : '40px 40px 56px',
+      sectionGap: isMobile ? '14px' : '22px',
+      h1Size: isMobile ? '28px' : '40px',
+      subjectSize: isMobile ? '17px' : '19px',
+      cardGap: isMobile ? '12px' : '26px',
+      barPad: isMobile ? '12px 14px' : '10px 16px',
+      barGap: isMobile ? '8px' : '12px',
+      isMobile, isTablet, isDesktopBar, isDesktop: !isMobile, accent,
+      lessonFlex: isMobile ? '1 1 100%' : '0 0 336px',
+      lessonMinWidth: isMobile ? '260px' : '336px',
+      cardsMaxWidth: isMobile ? 'none' : '1580px',
+      clockH: String(st.now.getHours()).padStart(2, '0'), clockM: String(st.now.getMinutes()).padStart(2, '0'),
+      compactDate: WEEKDAYS[st.now.getDay()].charAt(0).toUpperCase() + WEEKDAYS[st.now.getDay()].slice(1) + ', ' + st.now.getDate() + ' ' + MONTHS[st.now.getMonth()] + ' ' + st.now.getFullYear(),
+      todayLabel: 'Сьогодні ' + WEEKDAYS[st.now.getDay()] + ', ' + st.now.getDate() + ' ' + MONTHS[st.now.getMonth()] + ' ' + st.now.getFullYear(),
+      liveNow: liveCur >= 0, liveUpcoming: liveCur < 0 && liveNext >= 0,
+      liveDone: realDay >= 0 && liveCur < 0 && liveNext < 0,
+      liveOff: realDay < 0,
+      showJump: !!liveN && (isMobile || (realDay >= 0 && st.day !== realDay)),
+      liveLabel: liveN ? (liveCur >= 0 ? 'Зараз ' : (liveNext > 0 ? 'Перерва · наступний ' : 'Незабаром ')) + ORDINALS[liveN] + ' урок' : '', jumpToLive,
+      popupOpen: !!st.popup, popupTitle: st.popup ? 'Почався ' + ORDINALS[st.popup.n] + ' урок' : '', popupCtas: st.popup ? this.popupCtas(st.popup) : [], closePopup: this.closePopup,
+      cards: cardsWithBreaks,
+      dayName: day.name,
+      dayNames: DAYS.map((d) => d.name),
+      dayTabs: DAYS.map((d, i) => ({ label: d.name, active: i === st.day, inactive: i !== st.day, onClick: () => this.setState({ day: i }) })),
+      groupName: GROUP_LABELS[st.group],
+      groupNames: [GROUP_LABELS.all, GROUP_LABELS['1'], GROUP_LABELS['2']],
+      groupTabs: [
+        { key: 'all', label: '1 та 2 групи' }, { key: '1', label: 'Група 1' }, { key: '2', label: 'Група 2' }
+      ].map((g) => ({ label: g.label, active: st.group === g.key, inactive: st.group !== g.key, onClick: () => this.setGroup(g.key) })),
+      codeOn: st.showCode, codeOff: !st.showCode, toggleCode: this.toggleCode,
+      joinOn: st.showJoin, joinOff: !st.showJoin, toggleJoin: this.toggleJoin,
+      isDark: st.dark, isLight: !st.dark, toggleTheme: this.toggleTheme, stopClick: this.stopClick,
+      rosterOpen: !!st.rosterOpen, openRoster: this.openRoster, closeRoster: this.closeRoster, triggerTestBell: this.triggerTestBell,
+      settingsOpen: !!st.settingsOpen, toggleSettings: this.toggleSettings, closeSettings: this.closeSettings, refreshPage: this.refreshPage,
+      showRefreshBanner: !!st.showRefreshBanner, dismissBanner: this.dismissBanner,
+      rosterQuery: st.rosterQuery || '', onRosterQuery: this.onRosterQuery, clearRosterQuery: this.clearRosterQuery,
+      rosterQueryOn: !!(st.rosterQuery || '').trim(),
+      rosterAnswerOn: !!rosterMatchName, rosterAnswerName: rosterMatchName || '', rosterAnswer: rosterAnswer,
+      rosterGroups: ROSTERS.map((r) => {
+        const q = (st.rosterQuery || '').trim().toLowerCase();
+        const mark = (name) => { const hit = q.length > 1 && name.toLowerCase().includes(q); return { name, hit, notHit: !hit }; };
+        return { title: r.title, g1Label: r.g1Label || 'Група 1', g2Label: r.g2Label || 'Група 2', g1: r.g1.map(mark), g2: r.g2.map(mark) };
+      }),
+      onDaySelect: (e) => { const i = DAYS.findIndex((d) => d.name === e.target.value); if (i >= 0) this.setState({ day: i }); },
+      onGroupSelect: (e) => { const k = Object.keys(GROUP_LABELS).find((k2) => GROUP_LABELS[k2] === e.target.value); if (k) this.setGroup(k); }
+    };
+  }
+}
+</script>
+</body>
+</html>

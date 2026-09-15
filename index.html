@@ -51,15 +51,6 @@
   @keyframes modalIn { 0%{opacity:0;transform:scale(.92)} 100%{opacity:1;transform:scale(1)} }
 </style>
 </helmet>
-<sc-if value="{{ showRefreshBanner }}" hint-placeholder-val="{{ false }}">
-  <div style="position:fixed;top:0;left:0;right:0;z-index:70;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;padding:14px 20px;background:var(--acc);color:#fff;font-family:Manrope,system-ui,sans-serif;box-shadow:var(--shCard)">
-    <span style="font-size:14px;font-weight:600">Щоб бачити актуальну інформацію, оновіть сторінку</span>
-    <div style="display:flex;align-items:center;gap:8px;flex:none">
-      <button type="button" onClick="{{ refreshPage }}" style="cursor:pointer;font-family:inherit;border:none;background:#fff;color:var(--acc);font-size:13px;font-weight:800;padding:0 18px;min-height:38px;border-radius:999px" style-hover="background:var(--accSoft);color:var(--accH)">Оновити</button>
-      <button type="button" onClick="{{ dismissBanner }}" aria-label="Закрити" style="cursor:pointer;border:none;background:rgba(255,255,255,.22);color:#fff;width:30px;height:30px;border-radius:50%;font-size:15px;font-weight:700" style-hover="background:rgba(255,255,255,.38)">×</button>
-    </div>
-  </div>
-</sc-if>
 <div style="min-height: 100vh; background: var(--pg); font-family: Manrope,system-ui,sans-serif; color: var(--tx); padding: {{ pagePad }}; max-width: 100%">
 <div style="max-width:1598px;margin:0 auto;display:flex;flex-direction:column;gap:{{ sectionGap }}">
 
@@ -83,7 +74,13 @@
       </sc-if>
       <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
         <h1 style="margin:0;font-size:{{ h1Size }};font-weight:800;letter-spacing:-.02em;line-height:1.1">Розклад уроків 6-Г</h1>
-        <sc-if value="{{ liveNow }}" hint-placeholder-val="{{ true }}">
+        <sc-if value="{{ showRefreshBanner }}" hint-placeholder-val="{{ false }}">
+          <span style="display:flex;align-items:center;gap:8px;background:var(--acc);border:1px solid var(--acc);border-radius:999px;padding:4px 5px 4px 14px;min-height:36px;width:auto;white-space:nowrap">
+            <span style="font-size:12px;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:.06em">Оновіть сторінку</span>
+            <button type="button" onClick="{{ refreshPage }}" style="cursor:pointer;font-family:inherit;border:none;background:#fff;color:var(--acc);font-size:12px;font-weight:800;padding:0 12px;min-height:28px;border-radius:999px" style-hover="background:var(--accSoft);color:var(--accH)">Оновити</button>
+          </span>
+        </sc-if>
+        <sc-if value="{{ liveNowNoBanner }}" hint-placeholder-val="{{ true }}">
           <span style="display: flex; align-items: center; gap: 8px; background: var(--grnSoft); border: 1px solid var(--grnBrd); border-radius: 999px; padding: 4px 5px 4px 14px; min-height: 36px; width: auto; white-space: nowrap">
             <span style="width:9px;height:9px;border-radius:50%;background:var(--grn);animation:pulseDot 1.8s infinite;flex:none"></span>
             <span style="font-size:12px;font-weight:800;color:var(--grnD);text-transform:uppercase;letter-spacing:.06em">{{ liveLabel }}</span>
@@ -92,7 +89,7 @@
             </sc-if>
           </span>
         </sc-if>
-        <sc-if value="{{ liveUpcoming }}" hint-placeholder-val="{{ false }}">
+        <sc-if value="{{ liveUpcomingNoBanner }}" hint-placeholder-val="{{ false }}">
           <span style="display: flex; align-items: center; gap: 8px; background: var(--accSoft); border: 1px solid var(--accBrd); border-radius: 999px; padding: 4px 5px 4px 14px; min-height: 36px; width: auto; white-space: nowrap">
             <span style="width:9px;height:9px;border-radius:50%;background:var(--acc);flex:none"></span>
             <span style="font-size:12px;font-weight:800;color:var(--acc);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">{{ liveLabel }}</span>
@@ -101,7 +98,7 @@
             </sc-if>
           </span>
         </sc-if>
-        <sc-if value="{{ liveDone }}" hint-placeholder-val="{{ false }}">
+        <sc-if value="{{ liveDoneNoBanner }}" hint-placeholder-val="{{ false }}">
           <span style="display:flex;align-items:center;gap:8px;background:var(--skySoft);border:1px solid var(--skyBrd);border-radius:999px;padding:4px 14px;min-height:36px">
             <span style="width:9px;height:9px;border-radius:50%;background:var(--sky);flex:none"></span>
             <span style="font-size:12px;font-weight:800;color:var(--skyD);text-transform:uppercase;letter-spacing:.06em">На сьогодні уроки закінчились</span>
@@ -109,15 +106,12 @@
         </sc-if>
       </div>
     </div>
-    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+    <sc-if value="{{ showTopBar }}" hint-placeholder-val="{{ true }}">
     <div style="display:flex;align-items:center;gap:10px;flex:none">
     <div style="display:flex;align-items:center;gap:9px;background:var(--srf);border:1px solid var(--brd);border-radius:999px;padding:0 16px;height:44px;box-shadow:var(--sh1);flex:none">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="flex:none;color:var(--acc)"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
       <span style="font-size:14px;font-weight:600;color:var(--tx3)">{{ todayLabel }}</span>
     </div>
-    <button type="button" onClick="{{ refreshPage }}" aria-label="Оновити сторінку" title="Оновити сторінку" style="cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;background:var(--srf);border:1px solid var(--brd);box-shadow:var(--sh1);color:var(--tx3)" style-hover="background:var(--pillH);color:var(--acc)">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 1 3 6.7"></path><path d="M3 21v-6h6"></path></svg>
-    </button>
     <button type="button" onClick="{{ toggleSettings }}" aria-label="Налаштування" title="Налаштування" style="cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;background:var(--srf);border:1px solid var(--brd);box-shadow:var(--sh1);color:var(--tx3)" style-hover="background:var(--accSoft);color:var(--acc)">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
     </button>
@@ -125,28 +119,7 @@
     </sc-if>
   </div>
 
-  <sc-if value="{{ isTablet }}" hint-placeholder-val="{{ false }}">
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-      <select value="{{ dayName }}" onChange="{{ onDaySelect }}" style="appearance:none;flex:0 0 auto;width:auto;min-height:48px;border-radius:999px;border:1px solid var(--brd2);background:var(--srf);font-family:inherit;font-size:15px;font-weight:700;color:var(--tx);padding:0 34px 0 18px">
-        <sc-for list="{{ dayNames }}" as="d" hint-placeholder-count="5"><option value="{{ d }}">{{ d }}</option></sc-for>
-      </select>
-      <div style="display:flex;align-items:center;gap:8px;border:1px solid var(--brd2);border-radius:14px;padding:6px 10px;min-height:48px;flex:none">
-        <div style="display:flex;border:1px solid var(--brd2);border-radius:999px;overflow:hidden">
-          <sc-for list="{{ groupTabs }}" as="g" hint-placeholder-count="3">
-            <sc-if value="{{ g.active }}" hint-placeholder-val="{{ false }}">
-              <button type="button" onClick="{{ g.onClick }}" style="border:none;cursor:pointer;font-family:inherit;background:var(--acc);color:#fff;font-size:13px;font-weight:700;padding:0 13px;min-height:36px">{{ g.label }}</button>
-            </sc-if>
-            <sc-if value="{{ g.inactive }}" hint-placeholder-val="{{ true }}">
-              <button type="button" onClick="{{ g.onClick }}" style="border:none;border-left:1px solid var(--brd2);cursor:pointer;font-family:inherit;background:var(--srf);color:var(--tx3);font-size:13px;font-weight:600;padding:0 13px;min-height:36px" style-hover="background:var(--pillH);color:var(--acc)">{{ g.label }}</button>
-            </sc-if>
-          </sc-for>
-        </div>
-        <button type="button" onClick="{{ openRoster }}" aria-label="Яка моя група?" title="Яка моя група?" style="cursor:pointer;font-family:inherit;border:1px solid var(--brd2);background:var(--srf);color:var(--tx3);width:36px;height:36px;border-radius:50%;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none" style-hover="background:var(--accSoft);color:var(--acc);border-color:var(--accBrd)">?</button>
-      </div>
-    </div>
-  </sc-if>
-
-  <sc-if value="{{ isDesktopBar }}" hint-placeholder-val="{{ true }}">
+  <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
     <div style="display:flex;align-items:stretch;gap:18px;flex-wrap:wrap;justify-content:space-between">
       <div style="display:flex;align-items:stretch;gap:14px;flex-wrap:wrap;flex:0 1 auto">
       <div style="display:flex;gap:6px;flex-wrap:wrap">
@@ -174,6 +147,75 @@
         <button type="button" onClick="{{ openRoster }}" aria-label="Яка моя група?" title="Яка моя група?" style="cursor:pointer;font-family:inherit;border:1px solid var(--brd2);background:var(--srf);color:var(--tx3);width:38px;height:38px;border-radius:50%;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none" style-hover="background:var(--accSoft);color:var(--acc);border-color:var(--accBrd)">?</button>
       </div>
       </div>
+      <div style="display:flex;align-items:center;gap:8px;flex:none;margin-left:auto">
+      <div style="display:flex;border:1px solid var(--brd2);border-radius:16px;overflow:hidden;height:56px">
+        <sc-if value="{{ modeOnline }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ setModeOnline }}" style="border:none;cursor:pointer;font-family:inherit;background:var(--acc);color:#fff;padding:0 12px;height:100%;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:1px">
+            <span style="font-size:12px;font-weight:700;white-space:nowrap">Онлайн уроки</span>
+            <span style="font-size:9px;font-weight:600;color:rgba(255,255,255,.75);white-space:nowrap">Ліцей ОРТ №141</span>
+          </button>
+        </sc-if>
+        <sc-if value="{{ modeYoutube }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ setModeOnline }}" style="border:none;cursor:pointer;font-family:inherit;background:var(--srf);color:var(--tx3);padding:0 12px;height:100%;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:1px" style-hover="background:var(--pillH)">
+            <span style="font-size:12px;font-weight:700;white-space:nowrap">Онлайн уроки</span>
+            <span style="font-size:9px;font-weight:600;color:var(--tx4);white-space:nowrap">Ліцей ОРТ №141</span>
+          </button>
+        </sc-if>
+        <sc-if value="{{ modeYoutube }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ setModeYoutube }}" style="border:none;border-left:1px solid var(--brd2);cursor:pointer;font-family:inherit;background:var(--acc);color:#fff;padding:0 12px;height:100%;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:1px">
+            <span style="font-size:12px;font-weight:700;white-space:nowrap">Ютуб уроки</span>
+            <span style="font-size:9px;font-weight:600;color:rgba(255,255,255,.75);white-space:nowrap">МОН України</span>
+          </button>
+        </sc-if>
+        <sc-if value="{{ modeOnline }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ setModeYoutube }}" style="border:none;border-left:1px solid var(--brd2);cursor:pointer;font-family:inherit;background:var(--srf);color:var(--tx3);padding:0 12px;height:100%;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:1px" style-hover="background:var(--pillH)">
+            <span style="font-size:12px;font-weight:700;white-space:nowrap">Ютуб уроки</span>
+            <span style="font-size:9px;font-weight:600;color:var(--tx4);white-space:nowrap">МОН України</span>
+          </button>
+        </sc-if>
+      </div>
+      <button type="button" onClick="{{ openInfo }}" aria-label="Пояснення" title="Пояснення" style="cursor:pointer;font-family:inherit;border:1px solid var(--brd2);background:var(--srf);color:var(--tx3);width:38px;height:38px;border-radius:50%;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none" style-hover="background:var(--accSoft);color:var(--acc);border-color:var(--accBrd)">?</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isTablet }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <div style="position:relative;flex:0 1 200px;min-width:150px">
+        <select value="{{ dayName }}" onChange="{{ onDaySelect }}" style="appearance:none;width:100%;min-height:44px;border-radius:999px;border:1px solid var(--brd2);background:var(--srf);font-family:inherit;font-size:14px;font-weight:700;color:var(--tx);padding:0 16px">
+          <sc-for list="{{ dayNames }}" as="d" hint-placeholder-count="5"><option value="{{ d }}">{{ d }}</option></sc-for>
+        </select>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;border:1px solid var(--brd2);border-radius:14px;padding:6px 10px;min-height:44px">
+        <div style="display:flex;border:1px solid var(--brd2);border-radius:999px;overflow:hidden">
+          <sc-for list="{{ groupTabs }}" as="g" hint-placeholder-count="3">
+            <sc-if value="{{ g.active }}" hint-placeholder-val="{{ false }}">
+              <button type="button" onClick="{{ g.onClick }}" style="border:none;cursor:pointer;font-family:inherit;background:var(--acc);color:#fff;font-size:12px;font-weight:700;padding:0 11px;min-height:34px">{{ g.label }}</button>
+            </sc-if>
+            <sc-if value="{{ g.inactive }}" hint-placeholder-val="{{ true }}">
+              <button type="button" onClick="{{ g.onClick }}" style="border:none;border-left:1px solid var(--brd2);cursor:pointer;font-family:inherit;background:var(--srf);color:var(--tx3);font-size:12px;font-weight:600;padding:0 11px;min-height:34px" style-hover="background:var(--pillH);color:var(--acc)">{{ g.label }}</button>
+            </sc-if>
+          </sc-for>
+        </div>
+        <button type="button" onClick="{{ openRoster }}" aria-label="Яка моя група?" title="Яка моя група?" style="cursor:pointer;font-family:inherit;border:1px solid var(--brd2);background:var(--srf);color:var(--tx3);width:34px;height:34px;border-radius:50%;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none" style-hover="background:var(--accSoft);color:var(--acc);border-color:var(--accBrd)">?</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;margin-left:auto">
+        <div style="display:flex;border:1px solid var(--brd2);border-radius:14px;overflow:hidden;height:44px">
+          <sc-if value="{{ modeOnline }}" hint-placeholder-val="{{ true }}">
+            <button type="button" onClick="{{ setModeOnline }}" style="border:none;cursor:pointer;font-family:inherit;background:var(--acc);color:#fff;padding:0 12px;height:100%;font-size:12px;font-weight:700;white-space:nowrap">Онлайн</button>
+          </sc-if>
+          <sc-if value="{{ modeYoutube }}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{ setModeOnline }}" style="border:none;cursor:pointer;font-family:inherit;background:var(--srf);color:var(--tx3);padding:0 12px;height:100%;font-size:12px;font-weight:700;white-space:nowrap" style-hover="background:var(--pillH)">Онлайн</button>
+          </sc-if>
+          <sc-if value="{{ modeYoutube }}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{ setModeYoutube }}" style="border:none;border-left:1px solid var(--brd2);cursor:pointer;font-family:inherit;background:var(--acc);color:#fff;padding:0 12px;height:100%;font-size:12px;font-weight:700;white-space:nowrap">Ютуб</button>
+          </sc-if>
+          <sc-if value="{{ modeOnline }}" hint-placeholder-val="{{ true }}">
+            <button type="button" onClick="{{ setModeYoutube }}" style="border:none;border-left:1px solid var(--brd2);cursor:pointer;font-family:inherit;background:var(--srf);color:var(--tx3);padding:0 12px;height:100%;font-size:12px;font-weight:700;white-space:nowrap" style-hover="background:var(--pillH)">Ютуб</button>
+          </sc-if>
+        </div>
+        <button type="button" onClick="{{ openInfo }}" aria-label="Пояснення" title="Пояснення" style="cursor:pointer;font-family:inherit;border:1px solid var(--brd2);background:var(--srf);color:var(--tx3);width:38px;height:38px;border-radius:50%;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none" style-hover="background:var(--accSoft);color:var(--acc);border-color:var(--accBrd)">?</button>
+      </div>
     </div>
   </sc-if>
 
@@ -191,6 +233,35 @@
           </select>
         </div>
         <button type="button" onClick="{{ openRoster }}" aria-label="Яка моя група?" title="Яка моя група?" style="cursor:pointer;font-family:inherit;border:1px solid var(--brd2);background:var(--srf);color:var(--tx3);width:46px;height:46px;border-radius:50%;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">?</button>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:flex-end;gap:8px;width:100%;flex-wrap:wrap">
+      <div style="display:flex;flex:1 1 auto;min-width:0;border:1px solid var(--brd2);border-radius:14px;overflow:hidden;height:52px">
+        <sc-if value="{{ modeOnline }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ setModeOnline }}" style="border:none;cursor:pointer;font-family:inherit;background:var(--acc);color:#fff;padding:0 12px;height:100%;flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:1px;overflow:hidden">
+            <span style="font-size:12px;font-weight:700">Онлайн уроки</span>
+            <span style="font-size:9px;font-weight:600;color:rgba(255,255,255,.75)">Ліцей ОРТ №141</span>
+          </button>
+        </sc-if>
+        <sc-if value="{{ modeYoutube }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ setModeOnline }}" style="border:none;cursor:pointer;font-family:inherit;background:var(--srf);color:var(--tx3);padding:0 12px;height:100%;flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:1px;overflow:hidden" style-hover="background:var(--pillH)">
+            <span style="font-size:12px;font-weight:700">Онлайн уроки</span>
+            <span style="font-size:9px;font-weight:600;color:var(--tx4)">Ліцей ОРТ №141</span>
+          </button>
+        </sc-if>
+        <sc-if value="{{ modeYoutube }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ setModeYoutube }}" style="border:none;border-left:1px solid var(--brd2);cursor:pointer;font-family:inherit;background:var(--acc);color:#fff;padding:0 12px;height:100%;flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:1px;overflow:hidden">
+            <span style="font-size:12px;font-weight:700">Ютуб уроки</span>
+            <span style="font-size:9px;font-weight:600;color:rgba(255,255,255,.75)">МОН України</span>
+          </button>
+        </sc-if>
+        <sc-if value="{{ modeOnline }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ setModeYoutube }}" style="border:none;border-left:1px solid var(--brd2);cursor:pointer;font-family:inherit;background:var(--srf);color:var(--tx3);padding:0 12px;height:100%;flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:1px;overflow:hidden" style-hover="background:var(--pillH)">
+            <span style="font-size:12px;font-weight:700">Ютуб уроки</span>
+            <span style="font-size:9px;font-weight:600;color:var(--tx4)">МОН України</span>
+          </button>
+        </sc-if>
+      </div>
+      <button type="button" onClick="{{ openInfo }}" aria-label="Пояснення" title="Пояснення" style="cursor:pointer;font-family:inherit;border:1px solid var(--brd2);background:var(--srf);color:var(--tx3);width:46px;height:46px;border-radius:50%;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">?</button>
       </div>
     </div>
   </sc-if>
@@ -216,17 +287,18 @@
         </sc-if>
       </sc-if>
       <sc-if value="{{ c.isLesson }}" hint-placeholder-val="{{ true }}">
-      <div id="{{ c.domId }}" onClick="{{ c.onFlip }}" style="perspective:1600px;cursor:pointer;flex:{{ lessonFlex }};min-width:{{ lessonMinWidth }}">
+      <div id="{{ c.domId }}" style="perspective:1600px;flex:{{ lessonFlex }};min-width:{{ lessonMinWidth }}">
       <div style="position:relative;height:100%;transform-style:preserve-3d;transition:transform 1.15s cubic-bezier(.22,.68,.16,1);transform:rotateY({{ c.rot }}deg)">
-      <div style="position:absolute;inset:0;border-radius:16px;box-shadow:var(--shCard);overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg) translateZ(1px);background:{{ c.back }}">
+      <div onClick="{{ c.onFlip }}" style="position:absolute;inset:0;border-radius:16px;box-shadow:var(--shCard);overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg) translateZ(1px);background:{{ c.back }};cursor:pointer">
         <span style="position:absolute;inset:0;background:{{ c.stripes }}"></span>
+        <img src="assets/cat.png" alt="" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:{{ c.catW }}%;height:{{ c.catH }}%;object-fit:contain;filter:drop-shadow(0 6px 14px rgba(0,0,0,.35))">
       </div>
       <div style="position:relative;background:var(--srf);border-radius:16px;box-shadow:var(--shCard);padding:18px;display:flex;flex-direction:column;gap:12px;overflow:hidden;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:translateZ(2px)">
         <sc-if value="{{ c.isNow }}" hint-placeholder-val="{{ false }}">
           <span style="position:absolute;inset:0;border:6px solid var(--grn);border-radius:16px;pointer-events:none"></span>
         </sc-if>
         <div style="display:flex;align-items:center;gap:9px">
-          <span style="background:var(--accSoft);color:var(--acc);border:1px solid var(--accBrd);font-size:11px;font-weight:800;letter-spacing:.06em;padding:5px 10px;border-radius:999px;flex:none">{{ c.badge }}</span>
+          <span onClick="{{ c.onFlip }}" style="cursor:pointer;background:var(--accSoft);color:var(--acc);border:1px solid var(--accBrd);font-size:11px;font-weight:800;letter-spacing:.06em;padding:5px 10px;border-radius:999px;flex:none" style-hover="background:var(--accSoftH)">{{ c.badge }}</span>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#98A2B3" stroke-width="2.4" stroke-linecap="round" style="flex:none"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
           <span style="font-size:14px;font-weight:600;color:var(--tx3);font-variant-numeric:tabular-nums">{{ c.time }}</span>
           <sc-if value="{{ c.isNow }}" hint-placeholder-val="{{ false }}">
@@ -304,6 +376,9 @@
         <sc-if value="{{ c.showCtas }}" hint-placeholder-val="{{ true }}">
         <div onClick="{{ stopClick }}" style="margin-top:auto;display:flex;flex-direction:column;gap:8px;padding-top:2px">
           <sc-for list="{{ c.ctas }}" as="b" hint-placeholder-count="1">
+            <sc-if value="{{ b.video }}" hint-placeholder-val="{{ false }}">
+              <button type="button" onClick="{{ b.onClick }}" style="flex:1;cursor:pointer;font-family:inherit;background:var(--accSoft);color:var(--acc);border:1px solid var(--accBrd);font-size:15px;font-weight:700;min-height:46px;border-radius:999px;display:flex;align-items:center;justify-content:center;text-align:center" style-hover="background:var(--accSoftH);color:var(--accH)">{{ b.label }}</button>
+            </sc-if>
             <sc-if value="{{ b.primary }}" hint-placeholder-val="{{ false }}">
               <a href="{{ b.href }}" target="_blank" rel="noopener" style="flex:1;background:var(--acc);color:#fff;font-size:15px;font-weight:700;min-height:46px;border-radius:999px;display:flex;align-items:center;justify-content:center;text-align:center" style-hover="background:var(--accH);color:#fff">{{ b.label }}</a>
             </sc-if>
@@ -324,7 +399,7 @@
   </div>
 
   <div style="font-size:11px;font-weight:500;color:var(--tx4);padding:4px 0 8px">
-    Дані розкладу дистанційного навчання 6 класу, Ліцей №141. Знайшли помилку або маєте ідею?</div>
+    Дані з <a href="https://docs.google.com/spreadsheets/d/1F5ZWynyNsClb_K6MPBlOZ3kmAOl2ky8J/edit?usp=sharing" target="_blank" rel="noopener" style="color: var(--acc); font-weight: 700;">розкладу</a> дистанційного навчання 6 класу, Ліцей №141. Знайшли помилку або маєте ідею? <a href="mailto:e.okatyi@gmail.com" style="color:var(--acc);font-weight:700">e.okatyi@gmail.com</a></div>
 </div>
 
 <sc-if value="{{ rosterOpen }}" hint-placeholder-val="{{ false }}">
@@ -435,6 +510,10 @@
         </sc-if>
       </div>
       <div style="height:1px;background:var(--brd2)"></div>
+      <a href="{{ sheetUrl }}" target="_blank" rel="noopener" style="cursor:pointer;font-family:inherit;border:1px solid var(--brd2);background:var(--srf);color:var(--tx2);min-height:42px;border-radius:12px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;padding:0 12px;text-decoration:none" style-hover="background:var(--pillH);color:var(--acc)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path></svg>
+        Таблиця-джерело
+      </a>
     </div>
   </div>
 </sc-if>
@@ -454,7 +533,117 @@
   </div>
 </sc-if>
 
+<sc-if value="{{ eggOn }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:100;background:conic-gradient(from 200deg at 50% 50%,#5046E6,#9B5DE5,#F15BB5,#FEE440,#00BBF9,#5046E6);animation:eggFade 6s ease forwards">
+    <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:34vmin;max-width:340px;perspective:900px">
+      <img src="assets/cat.png" alt="" style="display:block;width:100%;filter:drop-shadow(0 12px 30px rgba(0,0,0,.4));animation:eggSpin .25s linear infinite">
+    </div>
+  </div>
+</sc-if>
 
+<sc-if value="{{ videoModalOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeVideoModal }}" style="position:fixed;inset:0;background:rgba(16,20,30,.6);display:flex;align-items:center;justify-content:center;z-index:90;padding:20px">
+    <div onClick="{{ stopClick }}" style="position:relative;width:min(92vw,640px);height:min(80vh,720px);min-width:0;background:var(--srf);border-radius:24px;box-shadow:var(--shCard);display:flex;flex-direction:column;gap:16px;padding:24px;animation:modalIn .22s cubic-bezier(.22,.68,.16,1)">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:19px;font-weight:800;letter-spacing:-.01em;flex:1;min-width:0">{{ videoModalTitle }}</span>
+        <button type="button" onClick="{{ closeVideoModal }}" aria-label="Закрити" style="cursor:pointer;border:none;background:var(--chip);color:var(--tx3);width:36px;height:36px;border-radius:50%;font-size:18px;font-weight:700;flex:none" style-hover="background:var(--pillH);color:var(--acc)">×</button>
+      </div>
+      <sc-if value="{{ videoModalEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:0 10px">
+          <span style="font-size:16px;font-weight:600;color:var(--tx3)">Матеріали до цього предмета ще не додані</span>
+          <span style="font-size:12px;font-weight:500;color:var(--tx4);line-height:1.5">Якщо у вас є ідеї, які відео можуть підходити для цього предмета — зв'яжіться з розробником: <a href="https://t.me/ok_ev" target="_blank" rel="noopener">Telegram</a> · <a href="mailto:e.okatyi@gmail.com">e.okatyi@gmail.com</a></span>
+        </div>
+      </sc-if>
+      <sc-if value="{{ videoModalHasList }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+          <span style="font-size:12px;font-weight:800;color:var(--skyD);background:var(--skySoft);border:1px solid var(--skyBrd);border-radius:999px;padding:5px 12px">{{ videoCounter }}</span>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;flex:none">
+            <span style="font-size:12px;font-weight:600;color:var(--tx3);white-space:nowrap">Показати переглянуті відео</span>
+            <sc-if value="{{ showWatched }}" hint-placeholder-val="{{ false }}">
+              <span onClick="{{ toggleShowWatched }}" style="position:relative;width:36px;height:20px;border-radius:999px;background:var(--acc);cursor:pointer;flex:none">
+                <span style="position:absolute;top:2px;left:18px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s"></span>
+              </span>
+            </sc-if>
+            <sc-if value="{{ showWatchedOff }}" hint-placeholder-val="{{ true }}">
+              <span onClick="{{ toggleShowWatched }}" style="position:relative;width:36px;height:20px;border-radius:999px;background:var(--chip);cursor:pointer;flex:none">
+                <span style="position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s"></span>
+              </span>
+            </sc-if>
+          </label>
+        </div>
+        <div style="flex:1;overflow:auto;display:flex;flex-direction:column;gap:6px">
+          <sc-if value="{{ videoRowsEmpty }}" hint-placeholder-val="{{ false }}">
+            <div style="flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px">
+              <span style="font-size:14px;font-weight:600;color:var(--tx4)">Все відео вже переглянуті</span>
+            </div>
+          </sc-if>
+          <sc-for list="{{ videoRows }}" as="vr" hint-placeholder-count="0">
+            <div onClick="{{ vr.onPlay }}" style="{{ vr.rowStyle }};cursor:pointer;flex-wrap:wrap">
+              <sc-if value="{{ vr.thumb }}" hint-placeholder-val="{{ false }}">
+                <div style="{{ vr.thumbStyle }}"></div>
+              </sc-if>
+              <div style="display:flex;flex-direction:column;gap:2px;flex:1 1 140px;min-width:140px">
+                <span style="font-size:14px;font-weight:600;color:var(--tx);line-height:1.35">{{ vr.title }}</span>
+                <sc-if value="{{ vr.meta }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size:11px;font-weight:500;color:var(--tx4)">{{ vr.meta }}</span>
+                </sc-if>
+              </div>
+              <div onClick="{{ stopClick }}" style="display:flex;align-items:center;gap:6px;flex:none;margin-left:auto">
+                <span style="font-size:11px;font-weight:700;color:var(--tx4);white-space:nowrap">Переглянуто</span>
+                <sc-if value="{{ vr.isWatched }}" hint-placeholder-val="{{ false }}">
+                  <span onClick="{{ vr.onToggle }}" style="position:relative;width:36px;height:20px;border-radius:999px;background:var(--acc);cursor:pointer;display:block">
+                    <span style="position:absolute;top:2px;left:18px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s"></span>
+                  </span>
+                </sc-if>
+                <sc-if value="{{ vr.isWatchedOff }}" hint-placeholder-val="{{ true }}">
+                  <span onClick="{{ vr.onToggle }}" style="position:relative;width:36px;height:20px;border-radius:999px;background:var(--chip);cursor:pointer;display:block">
+                    <span style="position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s"></span>
+                  </span>
+                </sc-if>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ playerOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closePlayer }}" style="position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:100;padding:24px">
+    <div onClick="{{ stopClick }}" style="position:relative;width:min(92vw,720px);background:var(--srf);border-radius:16px;overflow:hidden;box-shadow:var(--shCard);animation:modalIn .2s ease;display:flex;flex-direction:column">
+      <button type="button" onClick="{{ closePlayer }}" aria-label="Закрити" style="position:absolute;top:12px;right:12px;z-index:2;cursor:pointer;border:none;background:rgba(0,0,0,.6);color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;font-weight:700" style-hover="background:rgba(0,0,0,.85)">×</button>
+      <div style="position:relative;aspect-ratio:16/9;background:#000">
+        <sc-if value="{{ playerThumbStyle }}" hint-placeholder-val="{{ false }}">
+          <div style="{{ playerThumbStyle }}"></div>
+        </sc-if>
+        <sc-if value="{{ playerSrc }}" hint-placeholder-val="{{ false }}">
+          <iframe src="{{ playerSrc }}" title="{{ playerTitle }}" style="position:absolute;inset:0;width:100%;height:100%;border:none" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </sc-if>
+      </div>
+      <div style="padding:18px 20px;display:flex;flex-direction:column;gap:4px">
+        <span style="font-size:15px;font-weight:700;line-height:1.4">{{ playerTitle }}</span>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ infoOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeInfo }}" style="position:fixed;inset:0;background:rgba(16,20,30,.6);display:flex;align-items:center;justify-content:center;z-index:90;padding:20px">
+    <div onClick="{{ stopClick }}" style="position:relative;width:min(560px,92vw);max-height:85vh;overflow:auto;background:var(--srf);border-radius:24px;box-shadow:var(--shCard);display:flex;flex-direction:column;gap:14px;padding:28px;animation:modalIn .22s cubic-bezier(.22,.68,.16,1)">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <span style="font-size:19px;font-weight:800;letter-spacing:-.01em">Навіщо тут YouTube-уроки?</span>
+        <button type="button" onClick="{{ closeInfo }}" aria-label="Закрити" style="cursor:pointer;border:none;background:var(--chip);color:var(--tx3);width:36px;height:36px;border-radius:50%;font-size:18px;font-weight:700;flex:none" style-hover="background:var(--pillH);color:var(--acc)">×</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;font-size:14px;line-height:1.6;color:var(--tx2)">
+        <p style="margin:0">На жаль, онлайн-уроки не завжди можуть відбутися вчасно. У такому разі можна перейти на режим <b>«Ютуб уроки»</b> і подивитися відповідний за темою відео-урок від Міністерства освіти України для потрібного віку.</p>
+        <p style="margin:0">Тема такого відео може не завжди повністю збігатися з тим, що зараз проходить клас у ліцеї — але це краще, ніж пропустити навчання: дитина повторить чи вивчить щось нове.</p>
+        <p style="margin:0;font-weight:700;color:var(--tx)">Завдання від школи завжди мають вищий пріоритет. Якщо вчитель дав матеріал для самостійної роботи — спершу варто зробити саме це, а YouTube-уроки лишити на випадок, коли онлайн-уроку немає.</p>
+        <p style="margin:0"><a href="https://www.youtube.com/playlist?list=PLFVSJgZgf7h-8dQQfOOzWSVuIajcqS3Yf" target="_blank" rel="noopener">Плейліст «6 клас: Всеукраїнська школа онлайн»</a> — тут всі відео, які використовує цей додаток.</p>
+      </div>
+    </div>
+  </div>
+</sc-if>
 </div>
 
 </x-dc>
@@ -477,25 +666,231 @@ const Z = {
 };
 const T = ['09:00-09:45','09:55-10:40','10:50-11:35','11:55-12:40','13:00-13:45','13:55-14:40','14:50-15:35','15:45-16:30'];
 const S = {
-  eng1:{ subject:'Англійська мова', teacher:'Лопатіна Н.М.', room:'308', sync:Z.eng1, code:'vtr2p5xh' },
-  eng2:{ subject:'Англійська мова', teacher:'Голюга Я.С.', room:'304', sync:Z.eng2, code:'7e6ywsxh' },
-  ukr1:{ subject:'Українська мова', teacher:'Гончаренко Т.А.', room:'110', sync:Z.lit, code:'r7jy7fnj' },
-  ukr2:{ subject:'Українська мова', teacher:'Гончаренко Т.А.', room:'110', sync:Z.lit, code:'45dqajlo' },
+  eng1:{ subject:'Англійська мова', teacher:'Лопатіна Н.М.', room:'308', sync:Z.eng1, code:'vtr2p5xh', videoKey:'eng' },
+  eng2:{ subject:'Англійська мова', teacher:'Голюга Я.С.', room:'304', sync:Z.eng2, code:'7e6ywsxh', videoKey:'eng' },
+  ukr1:{ subject:'Українська мова', teacher:'Гончаренко Т.А.', room:'110', sync:Z.lit, code:'r7jy7fnj', videoKey:'ukr' },
+  ukr2:{ subject:'Українська мова', teacher:'Гончаренко Т.А.', room:'110', sync:Z.lit, code:'45dqajlo', videoKey:'ukr' },
   tech1:{ subject:'Технології', teacher:'Коваленко М.І.', room:'319', sync:Z.tech1, code:'2ynwz5da' },
   tech2:{ subject:'Технології', teacher:'Коваленко М.І.', room:'319', sync:Z.tech2, code:'z4qgvtf7' },
-  inf:{ subject:'Інформатика', teacher:'Вакансія', room:'330', sync:'', code:'' },
+  inf:{ subject:'Інформатика', teacher:'—', room:'330', sync:'http://meet.google.com/tnt-nsgd-yrj', code:'' },
   ivrit1:{ subject:'Іврит', teacher:'Сіра М.В.', room:'409', sync:Z.ivrit1, code:'vfoeyrie' },
   ivrit2:{ subject:'Іврит', teacher:'Тюпа К.О.', room:'408', sync:Z.ivrit2, code:'ey6c6ihj' },
-  math:{ subject:'Математика', teacher:'Краснова О.О.', room:'209', sync:Z.math, code:'vs52h7de' },
+  math:{ subject:'Математика', teacher:'Краснова О.О.', room:'209', sync:Z.math, code:'vs52h7de', videoKey:'math' },
   lit:{ subject:'Література', teacher:'Гончаренко Т.А.', room:'110', sync:Z.lit, code:'ihikclig' },
-  pe:{ subject:'Фізична культура', teacher:'Мартиненко О.С.', room:'СЗ 1-1', sync:Z.pe, code:'pfsjtthy' },
-  nature:{ subject:'Пізнаємо природу', teacher:'Шимановська М.В.', room:'212', sync:Z.nature, code:'ae6bzph6' },
+  pe:{ subject:'Фізична культура', teacher:'Мартиненко О.С.', room:'СЗ 1-1', sync:Z.pe, code:'pfsjtthy', videoKey:'pe' },
+  nature:{ subject:'Пізнаємо природу', teacher:'Шимановська М.В.', room:'212', sync:Z.nature, code:'ae6bzph6', videoKey:'nature' },
   health:{ subject:"Здоров'я, безпека та добробут", teacher:'Шимановська М.В.', room:'212', sync:Z.nature, code:'gt6yrv2v' },
-  geo:{ subject:'Географія', teacher:'Корнієнко О.М.', room:'410', sync:Z.geo, code:'yffu2d74' },
-  soc:{ subject:'Досліджуємо історію і суспільство', teacher:'Золотарьов В.А.', room:'402', sync:Z.soc, code:'zrb75fuv' },
+  geo:{ subject:'Географія', teacher:'Корнієнко О.М.', room:'410', sync:Z.geo, code:'yffu2d74', videoKey:'geo' },
+  soc:{ subject:'Досліджуємо історію і суспільство', teacher:'Золотарьов В.А.', room:'402', sync:Z.soc, code:'zrb75fuv', videoKey:'soc' },
   jew:{ subject:'Історія та культурна спадщина єврейського народу', teacher:'Кузовков В.В.', room:'405', sync:Z.jew, code:'76vq7czb' },
   art:{ subject:'Мистецтво', teacher:'Редько І.І.', room:'405', sync:Z.art, code:'3kcrlpro' }
 };
+const VIDEOS = {
+  eng: [
+    { id:'qlCQmnv9cEE', title:'Англійська мова. Транспорт. Підготовка до подорожі. Вступ до теми (Тиж.1:ПН)' },
+    { id:'lJXEVUSW3ls', title:'Англійська мова. Транспорт. Види подорожей (Тиж.1:СР)' },
+    { id:'UdrcYXvwDVo', title:'Англійська мова. Подорожі. Подорожувати самостійно (Тиж.1:ПТ)' },
+    { id:'mSc0ZD0MjDA', title:'Англійська мова. Транспорт. Подорож. Урок №4 (Тиж.2:ПН)' },
+    { id:'_XPw4BKSb30', title:'Англійська мова. Транспорт. Подорож. Урок №5 (Тиж.2:СР)' },
+    { id:'7YY42rEt8NA', title:'Англійська мова. Транспорт. Подорож. Урок №6 (Тиж.2:ПТ)' },
+    { id:'YTUxTyIiHg0', title:'Англійська мова. Транспорт. Подорож. Урок №7 (Тиж.3:СР)' },
+    { id:'TlfMeHQa4G4', title:'Англійська мова. Транспорт. Подорож. Урок №8 (Тиж.3:ПТ)' },
+    { id:'K9L-hfOnoSE', title:'Англійська мова. Транспорт. Подорож. Урок №9 (Тиж.4:ПН)' },
+    { id:'ZM3RBH_NmH8', title:'Англійська мова. Спорт. Урок №1 (Тиж.4:СР)' },
+    { id:'yW_U98g0vnE', title:'Англійська мова. Спорт. Урок №2 (Тиж.5:ПН)' },
+    { id:'UanU0gCQHe4', title:'Англійська мова. Спорт. Урок №3 (Тиж.5:СР)' },
+    { id:'7lzG0fG5eok', title:'Англійська мова. Спорт. Урок №4 (Тиж.5:ПТ)' },
+    { id:'ZDdoXcuukVE', title:'Англійська мова. Спорт. Урок №5 (Тиж.6:СР)' },
+    { id:'CQapFp7SdYI', title:'Англійська мова. Спорт. Урок №6 (Тиж.6:ПТ)' },
+    { id:'gesRV0-WTVc', title:'Англійська мова. Спорт. Урок № 7 (Тиж.7:ПН)' },
+    { id:'1vDetIddSTg', title:'Англійська мова. Спорт. Урок № 8 (Тиж.7:СР)' },
+    { id:'vR_TXq3A1K4', title:'Англійська мова. Спорт. Урок № 9 (Тиж.7:ПТ)' },
+    { id:'xdzfkEAB1Iw', title:'Англійська мова. Спорт. Урок № 10 (Тиж.8:ПН)' },
+    { id:'TugEWDBi1Y0', title:'Англійська мова. Харчування. Сполучники: but, because. Урок № 1 (Тиж.8:СР)' },
+    { id:'QPL5I9YfeN8', title:'Англійська мова. Харчування. Урок № 2 (Тиж.8:ПТ)' },
+    { id:'0jlvbJ8-7nc', title:'Англійська мова. Харчування. Урок № 3 (Тиж.9:ПН)' },
+    { id:'2Lv977jK-s0', title:'Англійська мова. Харчування. Урок № 4 (Тиж.9:СР)' },
+    { id:'WAiyFhIuR8s', title:'Англійська мова. Харчування. Урок № 5 (Тиж.9:ПТ)' },
+    { id:'GOZenq5iyIM', title:'Англійська мова. Харчування. Урок № 7 (Тиж.10:СР)' },
+    { id:'-06eDPA0dMU', title:'Англійська мова. Харчування. Урок № 8 (Тиж.10:ПТ)' },
+  ],
+  math: [
+    { id:'DhPO1Fzbg9w', title:'Математика. Основні властивості рівнянь. (Тиж.1:ПН)' },
+    { id:'nx7NWSNTIPc', title:'Математика. Розв′язування рівнянь, використовуючи їхні властивості (Тиж.1:ВТ)' },
+    { id:'MsW2cCV1V5k', title:'Математика. Розв‘язування задач за допомогою рівнянь (Тиж.1:СР)' },
+    { id:'WG4ZERER9-Q', title:'Математика. Розв‘язування задач виду «ціна, кількість, вартість» (Тиж.1:ЧТ)' },
+    { id:'7HjdXK3V2Wo', title:'Математика. Розв′язування задач на рух (Тиж.2:ПН)' },
+    { id:'MdeGN9orvlo', title:'Математика. Розв′язування задач виду «було – стало» (Тиж.2:ВТ)' },
+    { id:'497HwZU-yBk', title:'Математика. Розв′язування задач на відсотки (Тиж.2:СР)' },
+    { id:'zss-0x77i88', title:'Математика. Розв′язування задач геометричного змісту (Тиж.2:ЧТ)' },
+    { id:'0trVTvlmkvc', title:'Математика. Перпендикулярні прямі. Паралельні прямі (Тиж.3:ВТ)' },
+    { id:'YyzkDxtsuSI', title:'Математика. Побудова перпендикулярних та паралельних прямих (Тиж.3:СР)' },
+    { id:'Lygxae4Gqk8', title:'Математика. Координатна площина. Знаходження координат точок та побудова точок (Тиж.3:ЧТ)' },
+    { id:'XX1DY0x9HEI', title:'Математика. Побудова геометричних фігур на координатній площині (Тиж.4:ПН)' },
+    { id:'zQGrG7DRTnY', title:'Математика. Графіки. Приклади графіків залежностей між величинами (Тиж.4:ВТ)' },
+    { id:'aKY41uAo63I', title:'Математика. Розв’язування вправ на додавання та віднімання звичайних дробів (Тиж.4:СР)' },
+    { id:'ddi4WE-EZMg', title:'Математика. Розв’язування вправ на множення звичайних дробів (Тиж.4:ЧТ)' },
+    { id:'V5CiZU22CDk', title:'Математика. Розв’язування вправ на ділення звичайних дробів (Тиж.5:ПН)' },
+    { id:'LBc2Wn185NY', title:'Математика. Ознаки подільності на 2, 3, 5, 9, 10 (Тиж.5:ВТ)' },
+    { id:'HmV_SgY4haA', title:'Математика. Прості та складені числа, розкладання числа на прості множники (Тиж.5:СР)' },
+    { id:'UR7K6aM1e6E', title:'Математика. Знаходження НСК, НСД (Тиж.5:ЧТ)' },
+    { id:'ADTPKdRg5Zs', title:'Математика. Розв′язування вправ на додавання та віднімання раціональних чисел (Тиж.6:ВТ)' },
+    { id:'vPy6bDvMBiM', title:'Математика. Розв′язування вправ на множення раціональних чисел (Тиж.6:СР)' },
+    { id:'kjLOXp6z8DI', title:'Математика. Розв′язування вправ на ділення раціональних чисел (Тиж.6:ЧТ)' },
+    { id:'QmustJYgtdY', title:'Математика. Розв‘язування завдань на пропорції (Тиж.7:ПН)' },
+    { id:'Iq0cQ9MEMWs', title:'Математика. Пряма та обернена пропорційні залежності (Тиж.7:ВТ)' },
+    { id:'WV83KtQy-ys', title:'Математика. Поділ числа у даному відношенні (Тиж.7:СР)' },
+    { id:'MYe0vuZf_uI', title:'Математика. Узагальнюючий урок. Розв\'язування цікавих логічних задач. Урок № 1 (Тиж.7:ЧТ)' },
+    { id:'9I0nptJ1IpE', title:'Математика. Узагальнення. Розв\'язування цікавих логічних задач. Урок № 2 (Тиж.8:ПН)' },
+    { id:'g--lnyq5Nhw', title:'Математика. Коло і круг, довжина кола, площа круга (Тиж.8:ВТ)' },
+    { id:'R7rIwH382HM', title:'Математика. Випадкові події, ймовірність випадкових подій (Тиж.8:СР)' },
+    { id:'d3WlpK3d9Fk', title:'Математика. Спрощення буквених виразів, розв′язування рівнянь (Тиж.8:ЧТ)' },
+    { id:'xRYlTb_0JD4', title:'Математика. Розв′язування задач за допомогою рівнянь. Урок № 1 (Тиж.9:ПН)' },
+    { id:'MXsGFXDm66Q', title:'Математика. Розв′язування задач за допомогою рівнянь. Урок № 2 (Тиж.9:ВТ)' },
+    { id:'qVwKFJ8he1k', title:'Математика. Розв′язування задач за допомогою рівнянь. Урок № 3 (Тиж.9:СР)' },
+    { id:'mZPska-pLNE', title:'Математика. Побудова геометричних фігур на координатній площині (Тиж.9:ЧТ)' },
+    { id:'21AYCDAwOAI', title:'Математика. Узагальнюючий урок. Розв\'язування цікавих логічних задач. Урок № 4 (Тиж.10:ВТ)' },
+    { id:'ExLKW_RyGRo', title:'Математика. Узагальнюючий урок. Розв\'язування цікавих логічних задач. Урок № 5 (Тиж.10:СР)' },
+    { id:'RyjNhfWP95k', title:'Математика. Узагальнюючий урок. Розв\'язування цікавих логічних задач. Урок № 6 (Тиж.10:ЧТ)' },
+  ],
+  nature: [
+    { id:'jklXjP_b5w4', title:'Біологія. Хвощі, плауни. (Тиж.1:ПН)' },
+    { id:'llFC_KBhBSI', title:'Біологія. Папороті (Тиж.1:ЧТ)' },
+    { id:'_R54BToG6zw', title:'Біологія. Голонасінні (Тиж.2:ПН)' },
+    { id:'_NelEPqW4V4', title:'Біологія. Покритонасінні (Квіткові) (Тиж.2:ЧТ)' },
+    { id:'uo7dEy2eQm0', title:'Біологія. Різноманітність покритонасінних. Дводольні. Частина 1 (Тиж.3:ЧТ)' },
+    { id:'l0m-8eAMnkQ', title:'Біологія. Різноманітність покритонасінних. Дводольні. Частина 2 (Тиж.4:ПН)' },
+    { id:'ASWWm01hDGk', title:'Біологія. Різноманітність покритонасінних. Однодольні рослини (Тиж.4:ЧТ)' },
+    { id:'O3jKysjdA7Q', title:'Біологія. Екологічні групи рослин. Життєві форми рослин (Тиж.5:ПН)' },
+    { id:'qfgGA5vzCtg', title:'Біологія. Рослинні угруповання (Тиж.5:ЧТ)' },
+    { id:'e5sTwhQXyX4', title:'Біологія. Значення рослин для існування життя на планеті Земля. (Тиж.6:ЧТ)' },
+    { id:'oWw1az2vj9A', title:'Біологія. Поняття про гриби та особливості їхнього живлення (Тиж.7:ПН)' },
+    { id:'dAmfCxlGeEo', title:'Біологія. Особливості будови грибів. Розмноження та поширення грибів (Тиж.7:ЧТ)' },
+    { id:'1qn5oC3HOT0', title:'Біологія. Групи грибів: симбіотичні – мікоризоутворюючі шапинкові гриби (Тиж.8:ПН)' },
+    { id:'i23NYHNAACA', title:'Біологія. Отруйні гриби (Тиж.8:ЧТ)' },
+    { id:'xPONnP8mqek', title:'Біологія. Групи грибів: сапротрофні – цвілеві гриби; дріжджі. (Тиж.9:ПН)' },
+    { id:'xVU-WlohD8I', title:'Біологія. Групи грибів: паразитичні гриби (Тиж.9:ЧТ)' },
+    { id:'yDnFEsVgvcE', title:'Біологія. Значення грибів у природі та житті людини (Тиж.10:ЧТ)' },
+  ],
+  geo: [
+    { id:'yBO5StnV-Lo', title:'Географія. Води суходолу. Річки світу (Тиж.1:ВТ)' },
+    { id:'x-VUg5RVM38', title:'Географія. Озера. Болота. Штучні водойми (Тиж.1:ПТ)' },
+    { id:'sAtIDPdwp8M', title:'Географія. Правила поведінки під час природних надзвичайних ситуацій (Тиж.2:ВТ)' },
+    { id:'AL2y-6K6JHQ', title:'Географія. Льодовики. Багаторічна мерзлота (Тиж.2:ПТ)' },
+    { id:'GlLyN07AnY4', title:'Географія. Підземні води (Тиж.3:ВТ)' },
+    { id:'9N01KuaPEZo', title:'Географія. Охорона вод суходолу. Якість питної води (Тиж.3:ПТ)' },
+    { id:'SdBckFgFLe0', title:'Географія. Охорона вод Світового океану (Тиж.4:ВТ)' },
+    { id:'r0hTfCJR1Xs', title:'Географія. Біосфера (Тиж.5:ВТ)' },
+    { id:'fogbXkZredU', title:'Географія. Ґрунти. Карта ґрунтів (Тиж.5:ПТ)' },
+    { id:'m7EGyVMkABE', title:'Географія. Вплив господарської діяльності на ґрунти (Тиж.6:ВТ)' },
+    { id:'SnfkN-rjFzM', title:'Географія. Природні комплекси (Тиж.6:ПТ)' },
+    { id:'MDQna1ISes8', title:'Географія. Географічна оболонка (Тиж.7:ВТ)' },
+    { id:'0CpiG0WFC_I', title:'Географія. Природні зони Землі (Тиж.7:ПТ)' },
+    { id:'OEovw3VZ0iI', title:'Географія. Кількість і розміщення населення на Землі (Тиж.8:ВТ)' },
+    { id:'QToP_DB9lP0', title:'Географія. Людські раси. Найчисельніші народи світу (Тиж.8:ПТ)' },
+    { id:'uZQ3HvQ_h1U', title:'Географія. Держави світу. Практична робота № 8 (Тиж.9:ВТ)' },
+    { id:'Gtz9T4zVDn4', title:'Географія. Зміни природи під впливом господарської діяльності людини (Тиж.9:ПТ)' },
+    { id:'vddL7bVpCyU', title:'Географія. Забруднення довкілля (Тиж.10:ВТ)' },
+    { id:'beM7X6dXMBQ', title:'Географія. Охорона природи (Тиж.10:ПТ)' },
+  ],
+  soc: [
+    { id:'BzF4DXHIvu0', title:'Історія. Римська республіка в V-І ст. до н. е. (Тиж.1:СР)' },
+    { id:'4GbmZhW9zYY', title:'Історія. Військова експансія Риму. Частина 1 (Тиж.1:ПТ)' },
+    { id:'E8D8JCY9PoM', title:'Історія. Захоплення влади в Римі Цезарем (Тиж.2:СР)' },
+    { id:'i8PdjNGFjGc', title:'Історія. Диктатура Цезаря (Тиж.2:ПТ)' },
+    { id:'51LL0Hd7jUc', title:'Історія. Римська імперія. Октавіан Август (Тиж.3:СР)' },
+    { id:'1TElzN7jwgw', title:'Історія. Повсякденне життя в римських містах. Релігія та звичаї (Тиж.3:ПТ)' },
+    { id:'hSDhdYjfsas', title:'Історія. Культура Давнього Риму (Тиж.4:СР)' },
+    { id:'7YJVL01hMGk', title:'Історія. Кризові явища в Римській імперії (Тиж.5:СР)' },
+    { id:'9lMfHOkUfLQ', title:'Історія. Виникнення і поширення християнства (Тиж.5:ПТ)' },
+    { id:'Lq2lXDxe40g', title:'Історія. Перетворення християнства на офіційну релігію Римської імперії (Тиж.6:СР)' },
+    { id:'UwRwBVuBGXs', title:'Історія. Розпад Римської імперії (Тиж.6:ПТ)' },
+    { id:'is5Xobzpy1c', title:'Історія. Велике переселення народів (Тиж.7:СР)' },
+    { id:'Q6PPyJabKx0', title:'Історія. Падіння Західної Римської імперії (Тиж.7:ПТ)' },
+    { id:'JrwY4mu64Qo', title:'Історія. Походження слов’янських народів. Природно-географічні умови і(Тиж.8:СР)' },
+    { id:'V-yOEZBJMKc', title:'Історія. Суспільне та господарське життя і духовний світ (Тиж.8:ПТ)' },
+    { id:'y2I9sicU4Zk', title:'Історія. Передумови розселення слов’ян. (Тиж.9:СР)' },
+    { id:'8_m93CmrxOM', title:'Історія. Анти і склавини на теренах України (Тиж.9:ПТ)' },
+    { id:'NYMM6CNym6o', title:'Історія.Причини зникнення стародавніх цивілізацій.Сучасні цивілізації на мапі світу(Тиж10:СР)' },
+    { id:'cFF5WyeFSQc', title:'Історія.Китайська,індійська,ісламська та інші цивілізації. Цивілізаційні взаємодії(Тиж.10:ПТ)' },
+  ],
+  ukr: [
+    { id:'68a77MKZcdI', title:'Українська мова. Числівник. (Тиж.1:ВТ)' },
+    { id:'o1EbBy6GG0k', title:'Українська мова. Відмінювання кількісних числівників (Тиж.1:ЧТ)' },
+    { id:'MJnOSqehVU0', title:'Українська мова. Відмінювання кількісних числівників (Тиж.1:ПТ)' },
+    { id:'gwdux9DWA58', title:'Українська мова. Відмінювання порядкових числівників (Тиж.2:ВТ)' },
+    { id:'CU_wRG4d3FY', title:'Українська мова. Узгодження числівників з іменниками (Тиж.2:ЧТ)' },
+    { id:'bgUS5RpLxTE', title:'Українська мова. Правильне вживання числівників на позначення дат і часу (Тиж.2:ПТ)' },
+    { id:'OMihZzAXX9U', title:'Українська мова. Узагальнення знань про числівник (Тиж.3:ВТ)' },
+    { id:'wMjyTJYVjtA', title:'Українська мова.Займенник: загальне значення, морфологічні ознаки, синтаксична роль(Тиж.3:ЧТ)' },
+    { id:'647yvr-WyLo', title:'Українська мова. Розряди займенників за значенням (Тиж.3:ПТ)' },
+    { id:'H088JY6dSk0', title:'Українська мова. Особові займенники, їхнє відмінювання. (Тиж.4:ВТ)' },
+    { id:'AMc9a14bxTY', title:'Українська мова. Зворотний займенник “себе” (Тиж.4:ЧТ)' },
+    { id:'GcZwGDSE4lM', title:'Українська мова. Питальні та відносні займенники (Тиж.5:ВТ)' },
+    { id:'l9jYC23nMq0', title:'Українська мова. Неозначені займенники (Тиж.5:ЧТ)' },
+    { id:'xN4M2BI8sSU', title:'Українська мова. Правопис неозначених займенників разом і через дефіс (Тиж.5:ПТ)' },
+    { id:'bLK2d5ql0oc', title:'Українська мова. Написання займенників із прийменниками окремо (Тиж.6:ВТ)' },
+    { id:'Agre12zyRsc', title:'Українська мова. Присвійні та вказівні займенники (Тиж.6:ЧТ)' },
+    { id:'OpBlWQftl-w', title:'Українська мова. Означальні займенники (Тиж.6:ПТ)' },
+    { id:'vepnkDExTok', title:'Українська мова. Правопис заперечних займенників (Тиж.7:ВТ)' },
+    { id:'2Jtu0TZyHw8', title:'Українська мова. День вишиванки (Тиж.7:ЧТ)' },
+    { id:'XtlGoIeuYwM', title:'Українська мова. Узагальнення й систематизація вивченого з теми “Займенник” (Тиж.7:ПТ)' },
+    { id:'b9e8kpBxUZI', title:'Українська мова. Повторення. Лексикологія. Лексичні й граматичні помилки (Тиж.8:ВТ)' },
+    { id:'dLUlOW-pBrE', title:'Українська мова.Редагування речень, у яких допущено лексичні та граматичні помилки(Тиж.8:ЧТ)' },
+    { id:'HFnXUTeDggA', title:'Українська мова. Фразеологія. Урок № 1 (Тиж.8:ПТ)' },
+    { id:'x2KHjRxVQNM', title:'Українська мова. Фразеологія. Урок № 2 (Тиж.9:ВТ)' },
+    { id:'1RWNaaJ_NTM', title:'Українська мова. Словотвір та орфографія (Тиж.9:ЧТ)' },
+    { id:'XPAGq9I1KnQ', title:'Українська мова. Орфографія (Тиж.9:ПТ)' },
+    { id:'pvCU2oTjs9U', title:'Українська мова. Морфологія. Урок № 1 (Тиж.10:ВТ)' },
+    { id:'ygqnFknel00', title:'Українська мова. Морфологія. Урок № 2 (Тиж.10:ЧТ)' },
+    { id:'fWRiEFtajc4', title:'Українська мова. Лексикологія. Урок № 1 (Тиж.10:ПТ)' },
+  ],
+  pe: [
+    { id:'o6Iu05NLAzE', title:'Фізкультура/руханка з Юлією Сахневич' },
+    { id:'cLfqjyocFWg', title:'Фізкультура/руханка з Іваном Дорном' },
+    { id:'iOPZYUooAjQ', title:'Фізкультура/руханка із запальними ДЗІДЗЬО та Олею Цибульською' },
+    { id:'V6KIaA2YMYo', title:'Фізкультура/руханка з Олею Поляковою' },
+    { id:'tk5n78LAKew', title:'Фізкультура/руханка з Еліною Мбані, Сергієм Сидорчуком, Сергієм Кривцовим' },
+    { id:'Qn6-jKAHLlU', title:'Фізкультура/руханка з Мартою Адамчук, Тарасом Степаненко та Георгієм Бущаном' },
+    { id:'1KOaFfFtPdc', title:'Фізкультура/руханка з Віталієм Миколенком, Катериною Нікітіною та Сргієм Болбатом' },
+    { id:'_vAcSMjUb78', title:'Фізкультура/руханка з Віктором Коваленком та Артемом Бєсєдіном' },
+    { id:'XVfnqL8QPiQ', title:'Фізкультура/руханка з іриною Сопонару, Микитою Бурдою та Ісмаїлі Гонсалвіс дус Санту' },
+    { id:'MSGw5qn4-6I', title:'Фізкультура/руханка з Миколою Матвієнко, Олею Жуковцевою, Денисом Бойко' },
+    { id:'RYc2yfzq1O0', title:'Фізкультура/руханка - танцюємо з Лізою Василенко та Сашею Петренко' },
+    { id:'O6JcOU_wV5c', title:'Фізкультура/руханка - розважаємось з Андрієм Пятовим та Валерією Тостовлес' },
+    { id:'Mnd-z00IoZI', title:'Фізкультура/руханка з Дашею Астаф\'євою' },
+    { id:'VxnXMaZE4B8', title:'Фізкультура/руханка з Ніною Радзієвською та Олександром Барабошко' },
+    { id:'nJPLi8cNKMA', title:'Фізкультура/руханка - танцюємо з Оленою Кравець' },
+    { id:'fitJie07Ybk', title:'Фізкультура/руханка - запалюємо з МОНАТІКОМ' },
+    { id:'jMwA9eRPrn0', title:'Фізкультура/руханка з гуртом KADNAY' },
+    { id:'mXV-WS8vsWw', title:'Фізкультура/руханка з Юрієм Ткачем' },
+    { id:'h3TDubZen3E', title:'Фізкультура/руханка з неймовірною Світланою Тарабаровою' },
+    { id:'K0VeZYMgE0w', title:'Фізкультура/руханка - запалюємо разом з Юлією Сахневич' },
+    { id:'FTq68ESgKyM', title:'Фізкультура/руханка - тренуємось з DJ Nana (Анастасія Кумейко)' },
+    { id:'k4Q2wrJLHQ0', title:'Фізкультура/руханка - запалюємо з Данею Вегасом' },
+    { id:'eI9WYN1ufno', title:'Фізкультура/руханка з Лесею Нікітюк' },
+    { id:'BAkS6WCnwkU', title:'Фізкультура/руханка - запалюємо з DJ Nana (Анастасією Кумейко)' },
+    { id:'uPbnzEQbT00', title:'Фізкультура/руханка - займаємось спортом з DJ Nana (Анастасією Кумейко)' },
+    { id:'5h_JEUzt_qQ', title:'Фізкультура/руханка - розминаємось з Jerry Heil' },
+    { id:'0Jpn6UvraBo', title:'Фізкультура/руханка - запалюємо з Jerry Heil' },
+    { id:'CW4sZYNXPfs', title:'Фізкультура/руханка з TamerlanAlena' },
+    { id:'n6fQpQ4c5qU', title:'Фізкультура/руханка з Анною Домніч' },
+    { id:'yycaJh-i-vI', title:'Фізкультура/руханка з Антоном Савлеповим' },
+    { id:'0mtOEyVZync', title:'Фізкультура/руханка - запалюємо з Анною Різатдіновою та Артемом Пивоваровим' },
+    { id:'2exfDwlTecI', title:'Фізкультура/руханка - танцюємо з Наталею Годунко та Олександром Усиком' },
+    { id:'NcI3S6eGxsI', title:'Фізкультура/руханка з Наталею Годунко та Олександром Усиком' },
+    { id:'xM8D4LDvKlw', title:'Фізкультура/руханка' },
+  ],
+};
+function splitVideoTitle(title) {
+  let main = title;
+  const prefixM = main.match(/^(Математика|Біологія|Географія|Історія|Українська мова|Англійська мова|5-11 класи\. Українська мова)\.?\s*/i);
+  if (prefixM) main = main.slice(prefixM[0].length);
+  const metaM = main.match(/\(Тиж\.?\s*\d+\s*:\s*(ПН|ВТ|СР|ЧТ|ПТ)\)/i);
+  let meta = '';
+  if (metaM) { meta = metaM[0].replace(/[()]/g, ''); main = (main.slice(0, metaM.index) + main.slice(metaM.index + metaM[0].length)).trim(); }
+  return { main: main.replace(/\s{2,}/g, ' ').trim(), meta };
+}
 const one = (n, k) => Object.assign({ n, time:T[n-1] }, S[k]);
 const two = (n, a, b) => ({ n, time:T[n-1], groups:[S[a], S[b]] });
 const DAYS = [
@@ -503,7 +898,7 @@ const DAYS = [
   { name:'Вівторок', lessons:[ one(1,'art'), one(2,'math'), one(3,'math'), one(4,'soc'), one(5,'lit'), one(6,'lit'), one(7,'pe') ] },
   { name:'Середа', lessons:[ one(1,'math'), one(2,'math'), two(3,'tech1','ukr2'), two(4,'tech1','ukr2'), two(5,'ukr1','tech2'), two(6,'ukr1','tech2') ] },
   { name:'Четвер', lessons:[ two(1,'inf','ukr2'), two(2,'inf','ukr2'), two(3,'ukr1','inf'), two(4,'ukr1','inf'), one(5,'math'), two(6,'eng1','eng2'), one(7,'pe') ] },
-  { name:"П'ятниця", lessons:[ one(1,'health'), one(2,'soc'), two(3,'ivrit1','ivrit2'), two(4,'ivrit1','ivrit2'), two(5,'eng1','eng2'), two(6,'eng1','eng2') ] }
+  { name:"П'ятниця", lessons:[ one(1,'health'), one(2,'soc'), two(3,'ivrit2','ivrit1'), two(4,'ivrit2','ivrit1'), two(5,'eng1','eng2'), two(6,'eng1','eng2') ] }
 ];
 const DARK = {
   '--pg': '#131318', '--srf': '#1D1D25', '--knob': '#FFFFFF', '--brd': '#2C2C38', '--brd2': '#343442',
@@ -539,6 +934,7 @@ function backFace(seed) {
   const stripes = 'repeating-linear-gradient(' + ang + 'deg,rgba(255,255,255,.18) 0 ' + w + 'px,rgba(0,0,0,.14) ' + w + 'px ' + (w * 2) + 'px)';
   return { bg: blobs.join(','), stripes: stripes };
 }
+const EGG_KEYFRAMES = '@keyframes eggSpin{0%{transform:rotateY(0)}100%{transform:rotateY(1080deg)}}@keyframes eggFade{0%{opacity:0}12%{opacity:1}88%{opacity:1}100%{opacity:0}}';
 const ORDINALS = ['', 'перший', 'другий', 'третій', 'четвертий', "п'ятий", 'шостий', 'сьомий', 'восьмий'];
 const WD_SHORT = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
 const WEEKDAYS = ['неділя', 'понеділок', 'вівторок', 'середа', 'четвер', "п'ятниця", 'субота'];
@@ -552,6 +948,7 @@ const ROSTERS = [
     g2: ['Ворінко Анна','Мороз Іван','Окатий Андрій','Оліферчук Анна','Пашина Катерина','Подскребалін Даніель','Рімкус Владислав','Роженко Альвіна','Семенюк Віолетта','Старосвітська Антоніна','Старченко Діана','Тихончук Софія','Шевченко Марія','Шевченко Матвій','Шевченко Руслана','Яцик Дмитро'] }
 ];
 const GROUP_LABELS = { all:'Всі групи', '1':'Група 1', '2':'Група 2' };
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1F5ZWynyNsClb_K6MPBlOZ3kmAOl2ky8J/edit?usp=sharing';
 const mins = (hm) => { const p = hm.split(':'); return (+p[0]) * 60 + (+p[1]); };
 const range = (t) => { const p = t.split('-'); return [mins(p[0]), mins(p[1])]; };
 
@@ -571,6 +968,10 @@ class Component extends DCLogic {
       if (j === '1' || j === '0') this.joinInit = j === '1';
       const t = localStorage.getItem('lyceum141.theme');
       if (t === 'dark' || t === 'light') this.darkInit = t === 'dark';
+      const md = localStorage.getItem('lyceum141.mode');
+      if (md === 'youtube' || md === 'online') this.modeInit = md;
+      const wv = localStorage.getItem('lyceum141.watched');
+      if (wv) this.watchedInit = JSON.parse(wv);
     } catch (e) {}
     if (typeof this.darkInit !== 'boolean') {
       this.darkInit = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -580,7 +981,8 @@ class Component extends DCLogic {
     this.state = {
       day: wd >= 1 && wd <= 5 ? wd - 1 : 0,
       group, showCode: code, showJoin: this.joinInit, dark: this.darkInit, rot: {}, now: new Date(), copied: null, popup: null,
-      w: typeof window !== 'undefined' ? window.innerWidth : 1440
+      w: typeof window !== 'undefined' ? window.innerWidth : 1440,
+      mode: this.modeInit || 'online', watched: this.watchedInit || {}, videoModal: null, showWatched: false, playingVideoId: null
     };
   }
   applyTheme(dark) {
@@ -597,7 +999,7 @@ class Component extends DCLogic {
   componentDidMount() {
     this.applyTheme(this.state.dark);
     this.timer = setInterval(() => this.setState({ now: new Date() }), 15000);
-    this.bannerTimer = setTimeout(() => this.setState({ showRefreshBanner: true }), 20000);
+    this.bannerTimer = setTimeout(() => this.setState({ showRefreshBanner: true }), 30000);
 
     this.onResize = () => this.setState({ w: window.innerWidth });
     window.addEventListener('resize', this.onResize);
@@ -616,6 +1018,23 @@ class Component extends DCLogic {
   openRoster = () => this.setState({ rosterOpen: true, rosterQuery: '' });
   closeRoster = () => this.setState({ rosterOpen: false });
   toggleSettings = () => this.setState({ settingsOpen: !this.state.settingsOpen });
+  setMode = (m) => {
+    this.setState({ mode: m });
+    try { localStorage.setItem('lyceum141.mode', m); } catch (e) {}
+  };
+  openVideoModal = (videoKey, title) => this.setState({ videoModal: { videoKey, title }, showWatched: false });
+  closeVideoModal = () => this.setState({ videoModal: null, playingVideoId: null });
+  toggleShowWatched = () => this.setState({ showWatched: !this.state.showWatched });
+  toggleWatched = (id) => {
+    const w = Object.assign({}, this.state.watched);
+    if (w[id]) delete w[id]; else w[id] = true;
+    this.setState({ watched: w });
+    try { localStorage.setItem('lyceum141.watched', JSON.stringify(w)); } catch (e) {}
+  };
+  playVideo = (id) => this.setState({ playingVideoId: id });
+  closePlayer = () => this.setState({ playingVideoId: null });
+  openInfo = () => this.setState({ infoOpen: true });
+  closeInfo = () => this.setState({ infoOpen: false });
   closeSettings = () => this.setState({ settingsOpen: false });
   refreshPage = () => { try { window.location.reload(); } catch (e) {} };
   dismissBanner = () => this.setState({ showRefreshBanner: false });
@@ -631,7 +1050,14 @@ class Component extends DCLogic {
     setTimeout(() => {
       const ns = Object.assign({}, this.state.rot || {});
       const day = DAYS[this.state.day];
+      const allBack = day.lessons.length > 0 && day.lessons.every((l) => (((ns[l.n] || 0) / 180) % 2) === 1);
+      if (allBack) this.triggerEasterEgg();
     }, 1200);
+  }
+  triggerEasterEgg() {
+    if (this.state.egg) return;
+    this.setState({ egg: true });
+    setTimeout(() => { window.location.reload(); }, 6000);
   }
   stopClick = (e) => { e.stopPropagation(); };
   toggleJoin = () => {
@@ -644,6 +1070,37 @@ class Component extends DCLogic {
     try { navigator.clipboard.writeText(code).then(done, done); } catch (e) { done(); }
   }
 
+  videoModalVals(st) {
+    const vm = st.videoModal;
+    if (!vm) return { videoModalOpen: false };
+    const list = (vm.videoKey && VIDEOS[vm.videoKey]) || null;
+    const watched = st.watched || {};
+    let rows = [];
+    if (list) {
+      rows = list.filter((v) => st.showWatched || !watched[v.id]).map((v) => {
+        const parsed = splitVideoTitle(v.title);
+        return {
+          id: v.id, thumb: true, title: parsed.main, meta: parsed.meta, isWatched: !!watched[v.id], isWatchedOff: !watched[v.id],
+          rowStyle: watched[v.id] ? 'display:flex;align-items:center;gap:12px;padding:8px;border-radius:12px;opacity:.45' : 'display:flex;align-items:center;gap:12px;padding:8px;border-radius:12px',
+          thumbStyle: { width: 100, height: 56, borderRadius: 8, flex: 'none', backgroundColor: 'var(--accSoft)', backgroundImage: 'url(https://i.ytimg.com/vi/' + v.id + '/mqdefault.jpg)', backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' },
+          onToggle: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.toggleWatched(v.id); },
+          onPlay: () => this.playVideo(v.id)
+        };
+      });
+    }
+    const playing = st.playingVideoId ? list && list.find((v) => v.id === st.playingVideoId) : null;
+    const watchedCount = list ? list.filter((v) => watched[v.id]).length : 0;
+    return {
+      videoModalOpen: true, videoModalTitle: vm.title,
+      videoModalHasList: !!list, videoModalEmpty: !list,
+      videoCounter: list ? 'Переглянуто ' + watchedCount + ' з ' + list.length : '',
+      videoRows: rows, videoRowsEmpty: !!list && rows.length === 0,
+      showWatched: !!st.showWatched, showWatchedOff: !st.showWatched, toggleShowWatched: this.toggleShowWatched,
+      closeVideoModal: this.closeVideoModal,
+      playerOpen: !!playing, playerSrc: playing ? ('https://www.youtube.com/embed/' + playing.id + '?autoplay=1&rel=0&modestbranding=1') : '', playerTitle: playing ? playing.title : '',
+      closePlayer: this.closePlayer
+    };
+  }
   view(lesson) {
     const g = this.state.group;
     if (!lesson.groups) return { single: lesson, split: null };
@@ -667,8 +1124,8 @@ class Component extends DCLogic {
     })) : [];
     const accent = this.props.accent || '#5046E6';
     const isMobile = st.w <= 768;
-    const isTablet = st.w > 768 && st.w <= 1100;
-    const isDesktopBar = st.w > 1100;
+    const isTablet = st.w > 768 && st.w <= 1180;
+    const isDesktop2 = st.w > 1180;
     const day = DAYS[st.day];
     const nowM = st.now.getHours() * 60 + st.now.getMinutes();
 
@@ -687,11 +1144,13 @@ class Component extends DCLogic {
     const cards = day.lessons.map((l, i) => {
       const v = this.view(l);
       const isNow = isToday && i === curIdx, isNext = isToday && i === nextIdx && curIdx !== nextIdx;
-      let title, rows = [], codes = [], ctas = [], teacher = '', room = '';
+      let title, rows = [], codes = [], ctas = [], teacher = '', room = '', videoKey = null;
+      const yt = st.mode === 'youtube';
       if (v.split) {
         const a = v.split[0], b = v.split[1];
         const same = a.subject === b.subject;
         title = same ? a.subject : a.subject + ' / ' + b.subject;
+        videoKey = a.videoKey || b.videoKey || null;
         rows = [
           { isG1: true, isG2: false, subject: same ? '' : a.subject, teacher: a.teacher, room: a.room },
           { isG1: false, isG2: true, subject: same ? '' : b.subject, teacher: b.teacher, room: b.room }
@@ -701,35 +1160,40 @@ class Component extends DCLogic {
           if (a.code) codes.push({ label: 'КЛАСРУМ Г1:', code: a.code });
           if (b.code) codes.push({ label: 'КЛАСРУМ Г2:', code: b.code });
         }
-        if (a.sync && b.sync && a.sync === b.sync) ctas = [{ label: 'Приєднатися онлайн', href: a.sync }];
+        if (yt) ctas = [{ label: 'Ютуб уроки', video: true }];
+        else if (a.sync && b.sync && a.sync === b.sync) ctas = [{ label: 'Приєднатися онлайн', href: a.sync }];
         else if (a.sync || b.sync) ctas = [{ label: a.sync ? 'Група 1, приєднатися' : 'Група 1 — немає', href: a.sync }, { label: b.sync ? 'Група 2, приєднатися' : 'Група 2 — немає', href: b.sync }];
         else ctas = [{ label: 'Посилання відсутнє', href: '' }];
       } else {
         const s = v.single;
-        title = s.subject; teacher = s.teacher; room = s.room;
+        title = s.subject; teacher = s.teacher; room = s.room; videoKey = s.videoKey || null;
         if (s.code) codes = [{ label: 'КЛАСРУМ КОД:', code: s.code }];
-        ctas = [{ label: s.sync ? 'Приєднатися онлайн' : 'Посилання відсутнє', href: s.sync }];
+        ctas = yt ? [{ label: 'Ютуб уроки', video: true }] : [{ label: s.sync ? 'Приєднатися онлайн' : 'Посилання відсутнє', href: s.sync }];
       }
+      if (yt) { rows = []; teacher = ''; room = ''; }
       return {
         domId: 'lesson-' + l.n,
         rot: (st.rot && st.rot[l.n]) || 0,
         back: backFace(st.day * 101 + l.n * 17 + 7).bg,
         stripes: backFace(st.day * 101 + l.n * 17 + 7).stripes,
+        catW: (function () { const r = mulberry(st.day * 101 + l.n * 17 + 7 + 999); return (15 + r() * 80).toFixed(1); })(),
+        catH: (function () { const r = mulberry(st.day * 101 + l.n * 17 + 7 + 4242); return (15 + r() * 80).toFixed(1); })(),
         onFlip: () => this.flip(l.n),
         isLesson: true, isBreak: false,
         badge: 'УРОК ' + l.n, time: l.time.replace('-', ' – '), title,
-        isNow, isNext, isSplit: !!v.split, isSingle: !v.split, teacher, room, rows,
+        isNow, isNext, isSplit: !yt && !!v.split, isSingle: !yt && !v.split, teacher, room, rows,
         showCtas: st.showJoin,
-        showCodes: st.showCode && codes.length > 0,
-        noCode: st.showCode && codes.length === 0,
+        showCodes: !yt && st.showCode && codes.length > 0,
+        noCode: !yt && st.showCode && codes.length === 0,
         codes: codes.map((k) => ({
           label: k.label, code: k.code,
           copied: st.copied === k.code, idle: st.copied !== k.code,
           copy: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.copy(k.code); }
         })),
         ctas: ctas.map((b) => ({
-          label: b.label, href: b.href || undefined,
-          primary: !!b.href && isNow, secondary: !!b.href && !isNow, missing: !b.href
+          label: b.label, href: b.href || undefined, video: !!b.video,
+          onClick: b.video ? (() => this.openVideoModal(videoKey, title)) : undefined,
+          primary: !b.video && !!b.href && isNow, secondary: !b.video && !!b.href && !isNow, missing: !b.href && !b.video
         }))
       };
     });
@@ -778,7 +1242,7 @@ class Component extends DCLogic {
       cardGap: isMobile ? '12px' : '26px',
       barPad: isMobile ? '12px 14px' : '10px 16px',
       barGap: isMobile ? '8px' : '12px',
-      isMobile, isTablet, isDesktopBar, isDesktop: !isMobile, accent,
+      isMobile, isDesktop: isDesktop2, isTablet, showTopBar: isDesktop2 || isTablet, accent,
       lessonFlex: isMobile ? '1 1 100%' : '0 0 336px',
       lessonMinWidth: isMobile ? '260px' : '336px',
       cardsMaxWidth: isMobile ? 'none' : '1580px',
@@ -788,6 +1252,9 @@ class Component extends DCLogic {
       liveNow: liveCur >= 0, liveUpcoming: liveCur < 0 && liveNext >= 0,
       liveDone: realDay >= 0 && liveCur < 0 && liveNext < 0,
       liveOff: realDay < 0,
+      liveNowNoBanner: liveCur >= 0 && !st.showRefreshBanner,
+      liveUpcomingNoBanner: liveCur < 0 && liveNext >= 0 && !st.showRefreshBanner,
+      liveDoneNoBanner: realDay >= 0 && liveCur < 0 && liveNext < 0 && !st.showRefreshBanner,
       showJump: !!liveN && (isMobile || (realDay >= 0 && st.day !== realDay)),
       liveLabel: liveN ? (liveCur >= 0 ? 'Зараз ' : (liveNext > 0 ? 'Перерва · наступний ' : 'Незабаром ')) + ORDINALS[liveN] + ' урок' : '', jumpToLive,
       popupOpen: !!st.popup, popupTitle: st.popup ? 'Почався ' + ORDINALS[st.popup.n] + ' урок' : '', popupCtas: st.popup ? this.popupCtas(st.popup) : [], closePopup: this.closePopup,
@@ -804,8 +1271,9 @@ class Component extends DCLogic {
       joinOn: st.showJoin, joinOff: !st.showJoin, toggleJoin: this.toggleJoin,
       isDark: st.dark, isLight: !st.dark, toggleTheme: this.toggleTheme, stopClick: this.stopClick,
       rosterOpen: !!st.rosterOpen, openRoster: this.openRoster, closeRoster: this.closeRoster, triggerTestBell: this.triggerTestBell,
-      settingsOpen: !!st.settingsOpen, toggleSettings: this.toggleSettings, closeSettings: this.closeSettings, refreshPage: this.refreshPage,
+      settingsOpen: !!st.settingsOpen, toggleSettings: this.toggleSettings, closeSettings: this.closeSettings, refreshPage: this.refreshPage, sheetUrl: SHEET_URL,
       showRefreshBanner: !!st.showRefreshBanner, dismissBanner: this.dismissBanner,
+      eggOn: !!st.egg,
       rosterQuery: st.rosterQuery || '', onRosterQuery: this.onRosterQuery, clearRosterQuery: this.clearRosterQuery,
       rosterQueryOn: !!(st.rosterQuery || '').trim(),
       rosterAnswerOn: !!rosterMatchName, rosterAnswerName: rosterMatchName || '', rosterAnswer: rosterAnswer,
@@ -815,7 +1283,11 @@ class Component extends DCLogic {
         return { title: r.title, g1Label: r.g1Label || 'Група 1', g2Label: r.g2Label || 'Група 2', g1: r.g1.map(mark), g2: r.g2.map(mark) };
       }),
       onDaySelect: (e) => { const i = DAYS.findIndex((d) => d.name === e.target.value); if (i >= 0) this.setState({ day: i }); },
-      onGroupSelect: (e) => { const k = Object.keys(GROUP_LABELS).find((k2) => GROUP_LABELS[k2] === e.target.value); if (k) this.setGroup(k); }
+      onGroupSelect: (e) => { const k = Object.keys(GROUP_LABELS).find((k2) => GROUP_LABELS[k2] === e.target.value); if (k) this.setGroup(k); },
+      modeOnline: st.mode !== 'youtube', modeYoutube: st.mode === 'youtube',
+      setModeOnline: () => this.setMode('online'), setModeYoutube: () => this.setMode('youtube'),
+      openInfo: this.openInfo, closeInfo: this.closeInfo, infoOpen: !!st.infoOpen,
+      ...this.videoModalVals(st)
     };
   }
 }

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/favicon.png">
-<link rel="manifest" href="assets/manifest.webmanifest">
+<link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#5046E6">
 <meta name="apple-mobile-web-app-title" content="Розклад 6-Г">
 <script src="support.js"></script>
@@ -664,7 +664,7 @@ const Z = {
   soc:'https://meet.google.com/snh-xmke-vvt',
   tech1:'https://meet.google.com/prj-gtfy-vhx',
   tech2:'https://meet.google.com/amx-nqhp-eug',
-  ivrit1:'https://us02web.zoom.us/j/89381270132?pwd=aTPzXvsk8TDLUPuYulRpie4KSgMCmI.1',
+  ivrit1:'https://us02web.zoom.us/j/85119357241?pwd=oOm8BNZh9S1WGU4AoZ2bbbvxmnias.1',
   ivrit2:'https://us05web.zoom.us/j/83178880581?pwd=Pg9tuIYr1ZoPorSAe3F7IKgdjFxgAS.1'
 };
 const T = ['09:00-09:45','09:55-10:40','10:50-11:35','11:55-12:40','13:00-13:45','13:55-14:40','14:50-15:35','15:45-16:30'];
@@ -675,8 +675,9 @@ const S = {
   ukr2:{ subject:'Українська мова', teacher:'Гончаренко Т.А.', room:'110', sync:Z.lit, code:'45dqajlo', videoKey:'ukr' },
   tech1:{ subject:'Технології', teacher:'Коваленко М.І.', room:'319', sync:Z.tech1, code:'2ynwz5da' },
   tech2:{ subject:'Технології', teacher:'Коваленко М.І.', room:'319', sync:Z.tech2, code:'z4qgvtf7' },
-  inf:{ subject:'Інформатика', teacher:'—', room:'330', sync:'http://meet.google.com/tnt-nsgd-yrj', code:'' },
-  ivrit1:{ subject:'Іврит', teacher:'Сіра М.В.', room:'409', sync:Z.ivrit1, code:'vfoeyrie' },
+  inf1:{ subject:'Інформатика', teacher:'Марун І.Ф.', room:'330', sync:'http://meet.google.com/tnt-nsgd-yrj', code:'' },
+  inf2:{ subject:'Інформатика', teacher:'Марун І.Ф.', room:'330', sync:'http://meet.google.com/iup-usah-arr', code:'' },
+  ivrit1:{ subject:'Іврит', teacher:'Сіра М.В.', room:'415', sync:Z.ivrit1, code:'vfoeyrie' },
   ivrit2:{ subject:'Іврит', teacher:'Тюпа К.О.', room:'408', sync:Z.ivrit2, code:'ey6c6ihj' },
   math:{ subject:'Математика', teacher:'Краснова О.О.', room:'209', sync:Z.math, code:'vs52h7de', videoKey:'math' },
   lit:{ subject:'Література', teacher:'Гончаренко Т.А.', room:'110', sync:Z.lit, code:'ihikclig' },
@@ -900,7 +901,7 @@ const DAYS = [
   { name:'Понеділок', lessons:[ two(1,'eng1','eng2'), two(2,'eng1','eng2'), one(3,'nature'), one(4,'nature'), one(5,'geo'), one(6,'jew'), one(7,'lit'), one(8,'pe') ] },
   { name:'Вівторок', lessons:[ one(1,'art'), one(2,'math'), one(3,'math'), one(4,'soc'), one(5,'lit'), one(6,'lit'), one(7,'pe') ] },
   { name:'Середа', lessons:[ one(1,'math'), one(2,'math'), two(3,'tech1','ukr2'), two(4,'tech1','ukr2'), two(5,'ukr1','tech2'), two(6,'ukr1','tech2') ] },
-  { name:'Четвер', lessons:[ two(1,'inf','ukr2'), two(2,'inf','ukr2'), two(3,'ukr1','inf'), two(4,'ukr1','inf'), one(5,'math'), two(6,'eng1','eng2'), one(7,'pe') ] },
+  { name:'Четвер', lessons:[ two(1,'inf1','ukr2'), two(2,'inf1','ukr2'), two(3,'ukr1','inf2'), two(4,'ukr1','inf2'), one(5,'math'), two(6,'eng1','eng2'), one(7,'pe') ] },
   { name:"П'ятниця", lessons:[ one(1,'health'), one(2,'soc'), two(3,'ivrit2','ivrit1'), two(4,'ivrit2','ivrit1'), two(5,'eng1','eng2'), two(6,'eng1','eng2') ] }
 ];
 const DARK = {

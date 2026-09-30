@@ -53,6 +53,7 @@
   @keyframes pulseDot { 0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)} 70%{box-shadow:0 0 0 8px rgba(34,197,94,0)} 100%{box-shadow:0 0 0 0 rgba(34,197,94,0)} }
   @keyframes eggSpin { 0%{transform:rotateY(0deg)} 100%{transform:rotateY(360deg)} }
   @keyframes eggFade { 0%{opacity:0} 5%{opacity:1} 95%{opacity:1} 100%{opacity:0} }
+  @keyframes pulseRed { 0%{box-shadow:0 0 0 0 rgba(220,38,38,.6)} 70%{box-shadow:0 0 0 8px rgba(220,38,38,0)} 100%{box-shadow:0 0 0 0 rgba(220,38,38,0)} }
   @keyframes modalIn { 0%{opacity:0;transform:scale(.92)} 100%{opacity:1;transform:scale(1)} }
 </style>
 </helmet>
@@ -76,6 +77,15 @@
       </sc-if>
       <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
         <h1 style="margin:0;font-size:{{ h1Size }};font-weight:800;letter-spacing:-.02em;line-height:1.1">Розклад уроків 6-Г</h1>
+        <sc-if value="{{ alarmKyiv }}" hint-placeholder-val="{{ false }}">
+          <span style="display:flex;align-items:center;gap:8px;background:#DC2626;border:1px solid #DC2626;border-radius:999px;padding:4px 14px;min-height:36px;white-space:nowrap">
+            <span style="width:9px;height:9px;border-radius:50%;background:#fff;animation:pulseRed 1.4s infinite;flex:none"></span>
+            <span style="font-size:12px;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:.06em">Тривога в Києві!</span>
+            <sc-if value="{{ alarmSince }}" hint-placeholder-val="{{ false }}">
+              <span style="font-size:12px;font-weight:700;color:rgba(255,255,255,.85);font-variant-numeric:tabular-nums">з {{ alarmSince }}</span>
+            </sc-if>
+          </span>
+        </sc-if>
         <sc-if value="{{ showRefreshBanner }}" hint-placeholder-val="{{ false }}">
           <span style="{{ refreshBannerStyle }}">
             <span style="font-size:12px;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:.06em">Побачити поточний урок — оновіть сторінку</span>
@@ -1173,10 +1183,31 @@ class Component extends DCLogic {
     this.timer = setInterval(() => this.setState({ now: new Date() }), 15000);
     this.bannerTimer = setTimeout(() => this.setState({ showRefreshBanner: true }), 30000);
 
+    this.pollAlarm();
+    this.alarmTimer = setInterval(this.pollAlarm, 10000);
     this.onResize = () => this.setState({ w: window.innerWidth });
     window.addEventListener('resize', this.onResize);
   }
-  componentWillUnmount() { clearInterval(this.timer); clearTimeout(this._popupTimer); clearTimeout(this.bannerTimer); window.removeEventListener('resize', this.onResize); }
+  pollAlarm = () => {
+    if (typeof fetch === 'undefined' || (typeof document !== 'undefined' && document.hidden && this.state.alarmChecked)) return;
+    const API = 'https://ubilling.net.ua/aerialalerts/';
+    const tries = [
+      () => fetch(API, { cache: 'no-store' }).then((r) => r.json()),
+      () => fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(API) + '&t=' + Date.now()).then((r) => r.json()).then((j) => JSON.parse(j.contents)),
+      () => fetch('https://api.codetabs.com/v1/proxy/?quest=' + API).then((r) => r.json())
+    ];
+    const start = this.alarmRoute || 0;
+    const run = (i) => i >= tries.length ? Promise.reject(new Error('all sources failed')) : tries[i]().then((d) => { this.alarmRoute = i; return d; }, () => run(i + 1));
+    run(start).catch(() => (start ? run(0) : Promise.reject(new Error('all sources failed'))))
+      .then((d) => {
+        const s = d && d.states && d.states['м. Київ'];
+        if (!s) return;
+        const ch = s.changed && !/^1970/.test(s.changed) ? s.changed : '';
+        this.setState({ alarmKyiv: !!s.alertnow, alarmChanged: ch, alarmChecked: true });
+      })
+      .catch((e) => { if (!this.alarmWarned) { this.alarmWarned = true; console.warn('Air alert API unavailable:', e && e.message); } });
+  };
+  componentWillUnmount() { clearInterval(this.alarmTimer); clearInterval(this.timer); clearTimeout(this._popupTimer); clearTimeout(this.bannerTimer); window.removeEventListener('resize', this.onResize); }
 
   setGroup(g) {
     this.setState({ group: g });
@@ -1512,6 +1543,8 @@ class Component extends DCLogic {
       modeOnline: st.mode !== 'youtube', modeYoutube: st.mode === 'youtube',
       setModeOnline: () => this.setMode('online'), setModeYoutube: () => this.setMode('youtube'),
       openInfo: this.openInfo, closeInfo: this.closeInfo, infoOpen: !!st.infoOpen,
+      alarmKyiv: !!st.alarmKyiv,
+      alarmSince: st.alarmKyiv && st.alarmChanged && st.alarmChanged.slice(0, 10) === (st.now.getFullYear() + '-' + String(st.now.getMonth() + 1).padStart(2, '0') + '-' + String(st.now.getDate()).padStart(2, '0')) ? st.alarmChanged.slice(11, 16) : '',
       liveClubOn: liveClubs.length > 0, jumpToClub,
       liveClubLabel: liveClubs.length > 1 ? 'Гуртки зараз' : 'Гурток зараз',
       liveClubTime: liveClubs.map((c) => c.time.replace('-', '–')).join(', '),

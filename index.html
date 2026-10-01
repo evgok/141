@@ -585,7 +585,8 @@
         </sc-if>
       </div>
       <div style="height:1px;background:var(--brd2)"></div>
-      <button type="button" onClick="{{ openClubs }}" style="cursor:pointer;font-family:inherit;border:1px solid var(--clubBrd);background:var(--club);color:var(--tx);min-height:48px;border-radius:12px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:10px;padding:0 12px;text-align:left" style-hover="background:var(--clubChip)">
+      <div style="display:flex;align-items:center;gap:8px">
+      <button type="button" onClick="{{ openClubs }}" style="flex:1;min-width:0;cursor:pointer;font-family:inherit;border:1px solid var(--clubBrd);background:var(--club);color:var(--tx);min-height:48px;border-radius:12px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:10px;padding:0 12px;text-align:left" style-hover="background:var(--clubChip)">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex:none;color:var(--clubTx)"><path d="M12 2l3 6.5 7 .9-5.2 4.8 1.4 7L12 17.8 5.8 21.2l1.4-7L2 9.4l7-.9z"></path></svg>
         <span style="display:flex;flex-direction:column;gap:1px;flex:1;min-width:0">
           <span>Гуртки</span>
@@ -593,6 +594,17 @@
         </span>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex:none;color:var(--tx3)"><path d="M9 6l6 6-6 6"></path></svg>
       </button>
+      <sc-if value="{{ clubsMasterOn }}" hint-placeholder-val="{{ true }}">
+        <button type="button" onClick="{{ toggleAllClubs }}" aria-label="Усі гуртки" title="Вимкнути всі гуртки" style="cursor:pointer;border:none;width:44px;height:26px;border-radius:999px;background:var(--clubAcc);padding:3px;flex:none;display:flex;justify-content:flex-end;align-items:center">
+          <span style="width:20px;height:20px;border-radius:50%;background:var(--knob);box-shadow:0 1px 2px rgba(16,24,40,.25)"></span>
+        </button>
+      </sc-if>
+      <sc-if value="{{ clubsMasterOff }}" hint-placeholder-val="{{ false }}">
+        <button type="button" onClick="{{ toggleAllClubs }}" aria-label="Усі гуртки" title="Увімкнути всі гуртки" style="cursor:pointer;border:none;width:44px;height:26px;border-radius:999px;background:var(--off);padding:3px;flex:none;display:flex;justify-content:flex-start;align-items:center">
+          <span style="width:20px;height:20px;border-radius:50%;background:var(--knob);box-shadow:0 1px 2px rgba(16,24,40,.25)"></span>
+        </button>
+      </sc-if>
+      </div>
       <a href="{{ sheetUrl }}" target="_blank" rel="noopener" style="cursor:pointer;font-family:inherit;border:1px solid var(--brd2);background:var(--srf);color:var(--tx2);min-height:42px;border-radius:12px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;padding:0 12px;text-decoration:none" style-hover="background:var(--pillH);color:var(--acc)">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path></svg>
         Таблиця-джерело
@@ -1070,6 +1082,7 @@ const CLUBS = [
   { id:'parnas', name:'Театральна студія «Парнас»', teacher:'Детюк О.Я.', room:'', time:'14:50-17:30', days:[0,1,2,3,4], link:'', code:'' },
   { id:'sci', name:'Англійська. Science (6–7 класи)', teacher:'Бернацька Р.В.', room:'305', time:'15:45-17:30', days:[1], link:'https://us04web.zoom.us/j/9529357720?pwd=TTdEbGFhcDc2T0lJYVVmbUhnTFVzUT09', code:'' },
   { id:'ukrst', name:'Юні українознавці', teacher:'Гончаренко Т.А.', room:'', time:'15:45-16:30', days:[3], link:'https://us04web.zoom.us/j/71434663367?pwd=ZGeO448dh9nIlEcUKRGfKlBgRxvlrU.1', code:'' },
+  { id:'engthu', name:'Англійська мова', teacher:'', room:'', time:'15:45-17:15', days:[3], link:'', code:'' },
   { id:'logic', name:'Академія логіки', teacher:'Данилець В.Л.', room:'', time:'16:00-17:00', days:[3], link:'https://us05web.zoom.us/j/3151433075?pwd=ecWKsRwoG5nUl4gSGgnqtIYM6b8pab.1', code:'' },
   { id:'eco', name:'Екологічний дизайн', teacher:"Лук’янчук Т.С.", room:'313', time:'17:00-18:30', days:[0], link:'', code:'log7mhwd' },
   { id:'show', name:'Шоу-група', teacher:'Григорчук А.О.', room:'', time:'18:00-19:00', days:[0,2,3], link:'https://meet.google.com/huo-oedb-big', code:'' }
@@ -1148,6 +1161,7 @@ class Component extends DCLogic {
       if (t === 'dark' || t === 'light') this.darkInit = t === 'dark';
       const md = localStorage.getItem('lyceum141.mode');
       if (md === 'youtube' || md === 'online') this.modeInit = md;
+      this.allClubsOffInit = localStorage.getItem('lyceum141.allClubsOff') === '1';
       const co = localStorage.getItem('lyceum141.clubsOff');
       if (co) this.clubsOffInit = JSON.parse(co);
       const cd = localStorage.getItem('lyceum141.clubDaysOff');
@@ -1164,7 +1178,7 @@ class Component extends DCLogic {
       day: wd >= 1 && wd <= 5 ? wd - 1 : 0,
       group, showCode: code, showJoin: this.joinInit, dark: this.darkInit, rot: {}, now: new Date(), copied: null, popup: null,
       w: typeof window !== 'undefined' ? window.innerWidth : 1440,
-      mode: this.modeInit || 'online', clubsOff: this.clubsOffInit || {}, clubDaysOff: this.clubDaysOffInit || {}, clubHide: null, clubsOpen: false, watched: this.watchedInit || {}, videoModal: null, showWatched: false, playingVideoId: null
+      mode: this.modeInit || 'online', clubsOff: this.clubsOffInit || {}, allClubsOff: !!this.allClubsOffInit, clubDaysOff: this.clubDaysOffInit || {}, clubHide: null, clubsOpen: false, watched: this.watchedInit || {}, videoModal: null, showWatched: false, playingVideoId: null
     };
   }
   applyTheme(dark) {
@@ -1267,7 +1281,12 @@ class Component extends DCLogic {
     this.setState({ clubsOff: off, clubDaysOff: daysOff });
     try { localStorage.setItem('lyceum141.clubsOff', JSON.stringify(off)); localStorage.setItem('lyceum141.clubDaysOff', JSON.stringify(daysOff)); } catch (e) {}
   }
-  clubOnDay(c, d) { return c.days.includes(d) && !this.state.clubsOff[c.id] && !((this.state.clubDaysOff[c.id] || {})[d]); }
+  toggleAllClubs = () => {
+    const v = !this.state.allClubsOff;
+    this.setState({ allClubsOff: v });
+    try { localStorage.setItem('lyceum141.allClubsOff', v ? '1' : '0'); } catch (e) {}
+  };
+  clubOnDay(c, d) { return !this.state.allClubsOff && c.days.includes(d) && !this.state.clubsOff[c.id] && !((this.state.clubDaysOff[c.id] || {})[d]); }
   toggleClub(c) {
     const off = Object.assign({}, this.state.clubsOff), daysOff = Object.assign({}, this.state.clubDaysOff);
     if (off[c.id]) { delete off[c.id]; delete daysOff[c.id]; } else off[c.id] = true;
@@ -1552,7 +1571,8 @@ class Component extends DCLogic {
       clubHideText: hc ? (hc.days.length === 1 ? 'Картка зникне з розкладу.' : 'Картка зникне з розкладу тільки ' + DAY_ACC[st.clubHide.day] + ' — в інші дні гурток залишиться.') : '',
       confirmHideClub: this.confirmHideClub, cancelHideClub: this.cancelHideClub,
       clubsOpen: !!st.clubsOpen, openClubs: this.openClubs, closeClubs: this.closeClubs,
-      clubsSummary: 'Показано ' + clubsOnCount + ' з ' + CLUBS.length,
+      clubsSummary: st.allClubsOff ? 'Усі вимкнено' : 'Показано ' + clubsOnCount + ' з ' + CLUBS.length,
+      clubsMasterOn: !st.allClubsOff, clubsMasterOff: !!st.allClubsOff, toggleAllClubs: this.toggleAllClubs,
       clubRows: CLUBS.map((c) => {
         const on = !st.clubsOff[c.id];
         return {
